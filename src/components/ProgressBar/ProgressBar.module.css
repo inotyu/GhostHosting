@@ -1,0 +1,131 @@
+.progressBarContainer {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fileName {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+.fileSize {
+  color: #666666;
+  font-size: 12px;
+}
+
+.progressText {
+  color: #ff4d8d;
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: right;
+}
+
+.progressTrack {
+  background: #0f0f0f;
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6bb5, #ff4d8d);
+  border-radius: 8px;
+  position: relative;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.progressFill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+.progressGlow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(90deg, #ff6bb5, #ff4d8d);
+  border-radius: 8px;
+  opacity: 0.3;
+  filter: blur(4px);
+  z-index: -1;
+}
+
+.progressDetails {
+  display: flex;
+  justify-content: center;
+}
+
+.statusText {
+  color: #a0a0a0;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .progressBarContainer {
+    margin: 15px 0;
+    padding: 16px;
+  }
+  
+  .fileName {
+    max-width: 200px;
+  }
+}

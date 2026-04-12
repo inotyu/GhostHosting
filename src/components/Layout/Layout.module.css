@@ -1,0 +1,14 @@
+.mainContent {
+  flex: 1;
+  margin-left: 280px;
+  background: #000000;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    margin-left: 0;
+    padding: 80px 16px 16px;
+  }
+}

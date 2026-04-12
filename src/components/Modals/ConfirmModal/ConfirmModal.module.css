@@ -1,0 +1,134 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #a0a0a0;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  color: #ffffff;
+  background: #2a2a2a;
+}
+
+.modalBody {
+  padding: 24px;
+}
+
+.modalMessage {
+  color: #a0a0a0;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 16px 24px 24px;
+}
+
+.cancelBtn {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: #2a2a2a;
+  border-color: #ff4d8d;
+  box-shadow: 0 0 10px rgba(255, 77, 141, 0.2);
+}
+
+.confirmBtn {
+  background: linear-gradient(135deg, #ff4d8d, #ff6bb5);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 77, 141, 0.3);
+}
+
+.confirmBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255, 77, 141, 0.5), 0 4px 12px rgba(255, 77, 141, 0.3);
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    margin: 16px;
+  }
+  
+  .modalHeader,
+  .modalBody {
+    padding: 20px;
+  }
+  
+  .modalActions {
+    flex-direction: column;
+    padding: 16px 20px 20px;
+  }
+  
+  .cancelBtn,
+  .confirmBtn {
+    width: 100%;
+  }
+}

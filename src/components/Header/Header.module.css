@@ -1,0 +1,44 @@
+.mobileHeader {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #0f0f0f;
+  border-bottom: 1px solid #2a2a2a;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.menuBtn {
+  color: #a0a0a0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoImage {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoText {
+  color: #ff4d8d;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.notificationBtn {
+  color: #a0a0a0;
+}
+
+@media (max-width: 768px) {
+  .mobileHeader {
+    display: flex;
+  }
+}

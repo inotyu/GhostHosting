@@ -1,0 +1,387 @@
+.overviewPage {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.notificationBtn {
+  color: #a0a0a0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff4d8d, #ff6bb5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.statCard:hover {
+  border-color: #ff4d8d;
+  box-shadow: 0 0 20px rgba(255, 77, 141, 0.3), 0 4px 12px rgba(255, 77, 141, 0.2);
+  transform: translateY(-2px);
+}
+
+.statCard:hover::before {
+  opacity: 1;
+}
+
+.statTitle {
+  font-size: 14px;
+  color: #a0a0a0;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.chartsSection {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.chartCard {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.chartCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff4d8d, #ff6bb5);
+  opacity: 0.3;
+}
+
+.chartHeader {
+  margin-bottom: 24px;
+}
+
+.chartTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.chartTitle h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.chartControls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeframeButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.timeframeBtn {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #a0a0a0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeframeBtn:hover {
+  background: #2a2a2a;
+  color: #ffffff;
+  border-color: #ff4d8d;
+  box-shadow: 0 0 10px rgba(255, 77, 141, 0.2);
+}
+
+.timeframeBtn.active {
+  background: linear-gradient(135deg, #ff4d8d, #ff6bb5);
+  color: #ffffff;
+  border-color: #ff4d8d;
+  box-shadow: 0 0 15px rgba(255, 77, 141, 0.4), 0 2px 8px rgba(255, 77, 141, 0.3);
+  transform: translateY(-1px);
+}
+
+.dataTypeButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.dataTypeBtn {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #a0a0a0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dataTypeBtn:hover {
+  background: #2a2a2a;
+  color: #ffffff;
+  border-color: #ff4d8d;
+  box-shadow: 0 0 10px rgba(255, 77, 141, 0.2);
+}
+
+.dataTypeBtn.active {
+  background: linear-gradient(135deg, #ff4d8d, #ff6bb5);
+  color: #ffffff;
+  border-color: #ff4d8d;
+  box-shadow: 0 0 15px rgba(255, 77, 141, 0.4), 0 2px 8px rgba(255, 77, 141, 0.3);
+  transform: translateY(-1px);
+}
+
+.chartContent {
+  height: 200px;
+}
+
+.lineChart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 8px;
+}
+
+.chartBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 60px;
+}
+
+.bar {
+  width: 100%;
+  background: linear-gradient(180deg, #ff6bb5, #ff4d8d);
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 0 10px rgba(255, 77, 141, 0.3);
+}
+
+.bar:hover {
+  opacity: 0.8;
+  transform: scaleY(1.05);
+  box-shadow: 0 0 15px rgba(255, 77, 141, 0.5);
+}
+
+.chartLabel {
+  font-size: 12px;
+  color: #666666;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.donutChart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.donut {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #ff4d8d 0deg 180deg,
+    #ff6bb5 180deg 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(255, 77, 141, 0.3);
+  transition: all 0.3s ease;
+}
+
+.donut:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 77, 141, 0.5);
+}
+
+.donut::before {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #0f0f0f;
+  border-radius: 50%;
+}
+
+.chartCenter {
+  position: absolute;
+  text-align: center;
+  z-index: 1;
+}
+
+.totalFiles {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.totalCount {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.fileTypeLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legendLabel {
+  flex: 1;
+  color: #a0a0a0;
+  font-size: 14px;
+}
+
+.legendCount {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.customizationSection {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.customizationSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff4d8d, #ff6bb5);
+  opacity: 0.3;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+}
+
+.customizationContent {
+  min-height: 120px;
+}
+
+.placeholderText {
+  color: #666666;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chartsSection {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeframeButtons {
+    justify-content: center;
+  }
+  
+  .donutChart {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .fileTypeLegend {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
