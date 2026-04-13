@@ -27,20 +27,10 @@ export interface Folder {
 export const useFileSystem = () => {
   const [items, setItems] = useState<FileSystemItem[]>(() => {
     const saved = localStorage.getItem('fileSystem');
-    return saved ? JSON.parse(saved) : [
-      {
-        id: 'root',
-        name: 'Root',
-        type: 'folder' as const,
-        parentId: '',
-        createdDate: new Date().toISOString(),
-        modifiedDate: new Date().toISOString(),
-        isPrivate: false
-      }
-    ];
+    return saved ? JSON.parse(saved) : [];
   });
 
-  const [currentFolderId, setCurrentFolderId] = useState('root');
+  const [currentFolderId, setCurrentFolderId] = useState('');
 
   const saveToStorage = useCallback((newItems: FileSystemItem[]) => {
     localStorage.setItem('fileSystem', JSON.stringify(newItems));

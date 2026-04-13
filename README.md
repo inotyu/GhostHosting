@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+# GhostHosting
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sistema de hospedagem de arquivos com interface moderna para gerenciamento de imagens, vídeos e organização em pastas.
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+- **Upload de Arquivos**: Suporte para upload de imagens e vídeos com preview e geração automática de thumbnails
+- **Galeria**: Visualização de todos os arquivos em formato de grid com filtros e busca
+- **Organização em Pastas**: Sistema de pastas hierárquico para organizar arquivos
+- **Gerenciamento de Arquivos**: Renomear, mover, excluir e copiar links de arquivos
+- **Player de Vídeo**: Reprodutor integrado para vídeos
+- **Estatísticas**: Dashboard com métricas de uso e espaço
+- **Interface Moderna**: Design dark theme com acentos em rosa
+- **Persistência Local**: Dados salvos no localStorage
+
+## Tecnologias
+
+- **React**: Framework frontend com TypeScript
+- **Lucide React**: Biblioteca de ícones
+- **CSS Modules**: Estilos scoped para componentes
+- **localStorage**: Armazenamento local de dados
+
+## Estrutura do Projeto
+
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── Layout/         # Layout principal da aplicação
+│   ├── Sidebar/        # Barra lateral de navegação
+│   ├── Modals/         # Modais (criar pasta, mover, renomear, etc.)
+│   ├── VideoPlayerModal/ # Player de vídeo
+│   └── ProgressBar/    # Barra de progresso
+├── pages/              # Páginas da aplicação
+│   ├── Overview/       # Dashboard com estatísticas
+│   ├── Gallery/        # Galeria de arquivos
+│   ├── Upload/         # Página de upload
+│   └── Folders/        # Gerenciamento de pastas
+├── hooks/              # Hooks customizados
+│   └── useFileSystem.ts # Hook para gerenciamento de arquivos
+├── contexts/           # Contextos React
+│   └── ToastContext.ts # Contexto para notificações
+└── styles/             # Estilos globais
+    └── globals.css     # Variáveis CSS e estilos base
+```
+
+## Scripts Disponíveis
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Executa o aplicativo em modo de desenvolvimento.\
+Abra [http://localhost:3000](http://localhost:3000) para visualizar no navegador.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+A página recarrega automaticamente ao fazer edições.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Inicia o test runner em modo watch interativo.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Cria uma versão de produção na pasta `build`.\
+Otimiza o build para melhor performance.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Nota: esta operação é irreversível!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Se não estiver satisfeito com as ferramentas de build, pode usar `eject` para ter controle total da configuração.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Funcionalidades por Página
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Visão Geral (Overview)
+- Estatísticas de uso (total de arquivos, espaço usado, etc.)
+- Gráfico de tipos de arquivo
+- Cards informativos
 
-## Learn More
+### Galeria (Gallery)
+- Grid de arquivos com thumbnails
+- Filtros e busca
+- Ações: visualizar, copiar link, baixar, renomear, mover, excluir
+- Player de vídeo integrado
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Upload
+- Upload de arquivos com drag & drop
+- Preview automático
+- Barra de progresso
+- Geração de thumbnails para vídeos
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Pastas (Folders)
+- Criação de pastas (apenas dentro de outras pastas)
+- Navegação hierárquica com breadcrumbs
+- Visualização de conteúdo das pastas
+- Gerenciamento de pastas (renomear, mover, excluir)
+
+## Sistema de Arquivos
+
+O sistema usa uma estrutura simples onde:
+- **Root**: Localização padrão para arquivos enviados (não aparece visualmente)
+- **Pastas**: Podem ser criadas apenas dentro de outras pastas
+- **Arquivos**: São armazenados em pastas ou na root
+
+Todos os dados são persistidos no localStorage do navegador.

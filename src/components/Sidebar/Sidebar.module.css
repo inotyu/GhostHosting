@@ -1,19 +1,20 @@
 .sidebar {
   width: 280px;
-  background: #0f0f0f;
-  border-right: 1px solid #2a2a2a;
+  background: transparent;
+  border: none;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 28px);
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 14px;
+  top: 14px;
   z-index: 1000;
+  border-radius: 22px;
+  overflow: hidden;
 }
 
 .sidebarHeader {
   padding: 24px 20px;
-  border-bottom: 1px solid #2a2a2a;
 }
 
 .logo {
@@ -51,12 +52,11 @@
 .searchInput {
   width: 100%;
   padding: 10px 12px 10px 40px;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   color: #ffffff;
   font-size: 14px;
-  transition: all 0.3s ease;
 }
 
 .searchInput:focus {
@@ -88,15 +88,26 @@
   align-items: center;
   padding: 12px 16px;
   cursor: pointer;
-  transition: background 0.2s ease;
   position: relative;
   text-decoration: none;
   color: inherit;
+  margin: 0 32px;
+  transition: color 0.2s ease;
 }
 
 .sidebarItemContent:hover {
-  background: #2a2a2a;
+  color: #ff4d8d;
 }
+
+
+.active {
+  background: #2a2a2a;
+  color: #ff4d8d;
+  box-shadow: 0 0 10px rgba(255, 77, 141, 0.2);
+  border-radius: 20px;
+}
+
+
 
 .searchInput:focus {
   outline: none;
@@ -104,22 +115,7 @@
   box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.2), 0 0 15px rgba(255, 77, 141, 0.3);
 }
 
-.sidebarItemContent.active {
-  background: #2a2a2a;
-  color: #ff4d8d;
-  box-shadow: 0 0 10px rgba(255, 77, 141, 0.2);
-}
 
-.sidebarItemContent.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, #ff6bb5, #ff4d8d);
-  box-shadow: 0 0 10px rgba(255, 77, 141, 0.5);
-}
 
 .subItem {
   font-size: 14px;
@@ -128,11 +124,18 @@
 .sidebarIcon {
   margin-right: 12px;
   color: #a0a0a0;
+  transition: color 0.2s ease;
 }
 
 .sidebarLabel {
   flex: 1;
   color: #ffffff;
+  transition: color 0.2s ease;
+}
+
+.sidebarItemContent:hover .sidebarIcon,
+.sidebarItemContent:hover .sidebarLabel {
+  color: #ff4d8d;
 }
 
 .expandIcon {
@@ -140,18 +143,43 @@
 }
 
 .sidebarChildren {
-  background: #1a1a1a;
+  background: transparent;
 }
 
 .sidebarFooter {
   padding: 20px;
-  border-top: 1px solid #2a2a2a;
 }
 
 .bottomIcons {
   display: flex;
   gap: 8px;
   margin-bottom: 20px;
+}
+
+.bottomIcons .btn-icon {
+  color: #a0a0a0;
+}
+
+.iconPink svg {
+  color: #ff4d8d !important;
+  stroke: #ff4d8d !important;
+}
+
+.iconBlue svg {
+  color: #4da6ff !important;
+  stroke: #4da6ff !important;
+}
+
+.iconGreen svg {
+  color: #4dff88 !important;
+  stroke: #4dff88 !important;
+}
+
+.iconPink:hover svg,
+.iconBlue:hover svg,
+.iconGreen:hover svg {
+  color: inherit !important;
+  stroke: inherit !important;
 }
 
 .userProfile {
@@ -171,7 +199,7 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  background: #1a1a1a;
+  background: transparent;
 }
 
 .userAvatar img {
@@ -197,7 +225,14 @@
 }
 
 .logoutBtn {
-  color: #666666;
+  background: #ff4d4d;
+  color: #ffffff;
+  border: 1px solid #ff4d4d;
+}
+
+.logoutBtn:hover {
+  background: #ff3333;
+  border-color: #ff3333;
 }
 
 .mobileOverlay {
@@ -217,6 +252,10 @@
   }
   
   .sidebar {
+    left: 0;
+    top: 0;
+    height: 100vh;
+    border-radius: 0;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
   }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, TrendingUp, PieChart } from 'lucide-react';
+import { TrendingUp, PieChart, Upload, Calendar, File, HardDrive, Circle, Video, ImageIcon } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import styles from './Overview.module.css';
 
@@ -8,44 +8,55 @@ const Overview: React.FC = () => {
   const [dataType, setDataType] = useState('daily');
 
   const stats = [
-    { title: 'Total Uploads', value: 5 },
-    { title: 'Uploads Today', value: 2 },
-    { title: 'File Size Limit', value: '100MB' },
-    { title: 'Used Space', value: '73.46MB' },
-    { title: 'Free Space', value: '950.54MB' }
+    { title: 'Vídeos', value: 3 },
+    { title: 'Imagens', value: 2 },
+    { title: 'Envios Hoje', value: 0 },
+    { title: 'Limite de Tamanho', value: '100MB' },
+    { title: 'Espaço Usado', value: '73.46MB' }
   ];
 
+  const getStatIcon = (title: string) => {
+    if (title === 'Vídeos') return <Video size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Imagens') return <ImageIcon size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Envios Hoje') return <Calendar size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Limite de Tamanho') return <File size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Espaço Usado') return <HardDrive size={16} style={{ color: '#ff4d8d' }} />;
+    return <Circle size={16} style={{ color: '#ff4d8d' }} />;
+  };
+
   const uploadData = [
-    { date: 'Apr 04', uploads: 3 },
-    { date: 'Apr 05', uploads: 1 },
-    { date: 'Apr 06', uploads: 2 },
-    { date: 'Apr 07', uploads: 0 },
-    { date: 'Apr 08', uploads: 1 },
-    { date: 'Apr 09', uploads: 4 },
-    { date: 'Apr 10', uploads: 2 }
+    { date: '04 Abr', uploads: 3 },
+    { date: '05 Abr', uploads: 1 },
+    { date: '06 Abr', uploads: 2 },
+    { date: '07 Abr', uploads: 0 },
+    { date: '08 Abr', uploads: 1 },
+    { date: '09 Abr', uploads: 4 },
+    { date: '10 Abr', uploads: 2 }
   ];
 
   const fileTypeData = [
-    { type: 'Videos', count: 3, color: '#ff4d8d' },
-    { type: 'Images', count: 2, color: '#ff6bb5' }
+    { type: 'Vídeos', count: 3, color: '#ff4d8d' },
+    { type: 'Imagens', count: 2, color: '#ff6bb5' }
   ];
 
   return (
     <Layout>
       <div className={styles.overviewPage}>
         {/* Header */}
-        <div className={styles.header}>
-          <h1 className={styles.pageTitle}>Overview</h1>
-          <button className={`btn-icon ${styles.notificationBtn}`}>
-            <Bell size={20} style={{ color: '#ff4d8d' }} />
-          </button>
-        </div>
+        {false && (
+          <div className={styles.header}>
+            <h1 className={styles.pageTitle}>Overview</h1>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className={styles.statsGrid}>
           {stats.map((stat, index) => (
             <div key={index} className={styles.statCard}>
-              <h3 className={styles.statTitle}>{stat.title}</h3>
+              <div className={styles.statHeader}>
+                <span className={styles.statIcon}>{getStatIcon(stat.title)}</span>
+                <h3 className={styles.statTitle}>{stat.title}</h3>
+              </div>
               <p className={styles.statValue}>{stat.value}</p>
             </div>
           ))}
@@ -58,11 +69,11 @@ const Overview: React.FC = () => {
             <div className={styles.chartHeader}>
               <div className={styles.chartTitle}>
                 <TrendingUp size={20} style={{ color: '#ff4d8d' }} />
-                <h2>Upload Analytics</h2>
+                <h2>Análise de Envios</h2>
               </div>
               <div className={styles.chartControls}>
                 <div className={styles.timeframeButtons}>
-                  {['24h', '7d', '14d', '30d', 'All'].map((period) => (
+                  {['24h', '7d', '14d', '30d', 'Tudo'].map((period) => (
                     <button
                       key={period}
                       className={`${styles.timeframeBtn} ${timeframe === period ? styles.active : ''}`}
@@ -77,13 +88,13 @@ const Overview: React.FC = () => {
                     className={`${styles.dataTypeBtn} ${dataType === 'daily' ? styles.active : ''}`}
                     onClick={() => setDataType('daily')}
                   >
-                    Daily
+                    Diário
                   </button>
                   <button
                     className={`${styles.dataTypeBtn} ${dataType === 'cumulative' ? styles.active : ''}`}
                     onClick={() => setDataType('cumulative')}
                   >
-                    Cumulative
+                    Acumulado
                   </button>
                 </div>
               </div>
@@ -111,7 +122,7 @@ const Overview: React.FC = () => {
             <div className={styles.chartHeader}>
               <div className={styles.chartTitle}>
                 <PieChart size={20} style={{ color: '#ff4d8d' }} />
-                <h2>File Types</h2>
+                <h2>Tipos de Arquivo</h2>
               </div>
             </div>
             <div className={styles.chartContent}>
@@ -119,10 +130,10 @@ const Overview: React.FC = () => {
                 <div className={styles.donut}>
                   <div className={styles.donutSegment} style={{ background: '#ff4d8d', clipPath: 'polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%, 50% 50%)' }} />
                   <div className={styles.donutSegment} style={{ background: '#ff6bb5', clipPath: 'polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%, 50% 50%)' }} />
-                </div>
-                <div className={styles.chartCenter}>
-                  <div className={styles.totalFiles}>Total</div>
-                  <div className={styles.totalCount}>4 Files</div>
+                  <div className={styles.chartCenter}>
+                    <div className={styles.totalFiles}>Arquivos</div>
+                    <div className={styles.totalCount}>5</div>
+                  </div>
                 </div>
               </div>
               <div className={styles.fileTypeLegend}>
@@ -143,10 +154,10 @@ const Overview: React.FC = () => {
 
         {/* General Customization Section */}
         <div className={styles.customizationSection}>
-          <h2 className={styles.sectionTitle}>General Customization</h2>
+          <h2 className={styles.sectionTitle}>Personalização Geral</h2>
           <div className={styles.customizationContent}>
             <p className={styles.placeholderText}>
-              Customization options will be available here soon.
+              Opções de personalização estarão disponíveis em breve.
             </p>
           </div>
         </div>

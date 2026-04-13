@@ -36,7 +36,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
       };
       
       const handleError = () => {
-        setError('Failed to load video');
+        setError('Falha ao carregar vídeo');
         setIsLoading(false);
       };
       
@@ -94,28 +94,28 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
             <button 
               className={`btn-icon ${styles.actionBtn}`}
               onClick={handleCopyLink}
-              title="Copy Link"
+              title="Copiar Link"
             >
               <Copy size={18} />
             </button>
             <button 
               className={`btn-icon ${styles.actionBtn}`}
               onClick={handleDownload}
-              title="Download"
+              title="Baixar"
             >
               <Download size={18} />
             </button>
             <button 
               className={`btn-icon ${styles.actionBtn}`}
               onClick={handleFullscreen}
-              title="Fullscreen"
+              title="Tela Cheia"
             >
               <Maximize2 size={18} />
             </button>
             <button 
               className={`btn-icon ${styles.closeBtn}`}
               onClick={onClose}
-              title="Close"
+              title="Fechar"
             >
               <X size={18} />
             </button>
@@ -132,7 +132,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               {isLoading && (
                 <div className={styles.loadingState}>
                   <div className={styles.loadingSpinner} />
-                  <p className={styles.loadingText}>Loading video...</p>
+                  <p className={styles.loadingText}>Carregando vídeo...</p>
                 </div>
               )}
               <video

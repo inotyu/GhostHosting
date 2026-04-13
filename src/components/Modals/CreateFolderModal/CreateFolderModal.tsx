@@ -34,7 +34,7 @@ const CreateFolderModal: React.FC<CreateFolderModalProps> = ({
         <div className={styles.modalHeader}>
           <div className={styles.headerContent}>
             <FolderIcon size={24} style={{ color: '#4ade80' }} />
-            <h2 className={styles.modalTitle}>Create New Folder</h2>
+            <h2 className={styles.modalTitle}>Criar Nova Pasta</h2>
           </div>
           <button className={styles.closeBtn} onClick={onClose}>
             <X size={20} />
@@ -43,18 +43,18 @@ const CreateFolderModal: React.FC<CreateFolderModalProps> = ({
 
         <div className={styles.modalBody}>
           <p className={styles.modalDescription}>
-            Create a new folder to organize your uploaded files
+            Crie uma nova pasta para organizar seus arquivos enviados
           </p>
 
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>
               <label htmlFor="folderName" className={styles.inputLabel}>
-                Folder Name
+                Nome da Pasta
               </label>
               <input
                 id="folderName"
                 type="text"
-                placeholder="Enter folder name..."
+                placeholder="Digite o nome da pasta..."
                 value={folderName}
                 onChange={(e) => setFolderName(e.target.value)}
                 maxLength={32}
@@ -67,7 +67,7 @@ const CreateFolderModal: React.FC<CreateFolderModalProps> = ({
             </div>
 
             <div className={styles.privacySection}>
-              <label className={styles.privacyLabel}>Privacy Settings</label>
+              <label className={styles.privacyLabel}>Configurações de Privacidade</label>
               <div className={styles.toggleContainer}>
                 <button
                   type="button"
@@ -79,7 +79,7 @@ const CreateFolderModal: React.FC<CreateFolderModalProps> = ({
                 <div className={styles.toggleText}>
                   <Lock size={16} style={{ color: '#666666' }} />
                   <span>
-                    {isPrivate ? 'Private' : 'Public'} - Switch to mark it {isPrivate ? 'Public' : 'Private'}
+                    {isPrivate ? 'Privada' : 'Pública'} - Alternar para {isPrivate ? 'Pública' : 'Privada'}
                   </span>
                 </div>
               </div>
@@ -91,13 +91,13 @@ const CreateFolderModal: React.FC<CreateFolderModalProps> = ({
                 className={`btn-secondary ${styles.cancelBtn}`}
                 onClick={onClose}
               >
-                Cancel
+                Cancelar
               </button>
               <button
                 type="submit"
                 className={`btn-primary ${styles.createBtn}`}
               >
-                Create Folder
+                Criar Pasta
               </button>
             </div>
           </form>

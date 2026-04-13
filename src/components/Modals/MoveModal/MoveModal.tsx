@@ -96,13 +96,13 @@ const MoveModal: React.FC<MoveModalProps> = ({
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Move "{itemName}"</h2>
+          <h2 className={styles.modalTitle}>Mover "{itemName}"</h2>
         </div>
         
         <form onSubmit={handleSubmit} className={styles.modalForm}>
           <div className={styles.formGroup}>
             <label className={styles.formLabel}>
-              Select destination folder
+              Selecione a pasta de destino
             </label>
             <div className={styles.folderTree}>
               {folderTree.map(folder => renderFolderTree(folder))}
@@ -115,13 +115,13 @@ const MoveModal: React.FC<MoveModalProps> = ({
               className={`btn-secondary ${styles.cancelBtn}`}
               onClick={onClose}
             >
-              Cancel
+              Cancelar
             </button>
             <button
               type="submit"
               className={`btn-primary ${styles.moveBtn}`}
             >
-              Move Here
+              Mover para Cá
             </button>
           </div>
         </form>

@@ -20,7 +20,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
     <div className={styles.progressBarContainer}>
       <div className={styles.progressHeader}>
         <div className={styles.fileInfo}>
-          <span className={styles.fileName}>{fileName || 'Uploading...'}</span>
+          <span className={styles.fileName}>{fileName || 'Enviando...'}</span>
           {fileSize && <span className={styles.fileSize}>{fileSize}</span>}
         </div>
         <span className={styles.progressText}>{progress}%</span>
@@ -37,10 +37,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
       
       <div className={styles.progressDetails}>
         <span className={styles.statusText}>
-          {progress < 30 ? 'Uploading...' : 
-           progress < 70 ? 'Processing...' : 
-           progress < 100 ? 'Finalizing...' : 
-           'Complete!'}
+          {progress < 30 ? 'Enviando...' : 
+           progress < 70 ? 'Processando...' : 
+           progress < 100 ? 'Finalizando...' : 
+           'Concluído!'}
         </span>
       </div>
     </div>

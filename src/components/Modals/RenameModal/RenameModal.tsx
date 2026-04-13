@@ -39,13 +39,13 @@ const RenameModal: React.FC<RenameModalProps> = ({
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Rename Item</h2>
+          <h2 className={styles.modalTitle}>Renomear Item</h2>
         </div>
         
         <form onSubmit={handleSubmit} className={styles.modalForm}>
           <div className={styles.formGroup}>
             <label htmlFor="itemName" className={styles.formLabel}>
-              New Name
+              Novo Nome
             </label>
             <input
               id="itemName"
@@ -53,7 +53,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               className={styles.formInput}
-              placeholder="Enter new name"
+              placeholder="Digite o novo nome"
               autoFocus
             />
           </div>
@@ -64,14 +64,14 @@ const RenameModal: React.FC<RenameModalProps> = ({
               className={`btn-secondary ${styles.cancelBtn}`}
               onClick={handleCancel}
             >
-              Cancel
+              Cancelar
             </button>
             <button
               type="submit"
               className={`btn-primary ${styles.renameBtn}`}
               disabled={!newName.trim() || newName === itemName}
             >
-              Rename
+              Renomear
             </button>
           </div>
         </form>

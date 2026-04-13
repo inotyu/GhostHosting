@@ -1,14 +1,17 @@
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #0f0f0f;
-  --bg-tertiary: #1a1a1a;
-  --bg-hover: #2a2a2a;
+  --bg-primary: #050507;
+  --bg-secondary: #0b0b0d;
+  --bg-tertiary: #111116;
+  --bg-hover: #1a1a22;
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
   --text-muted: #666666;
   --accent-primary: #ff4d8d;
   --accent-secondary: #ff6bb5;
-  --border-color: #333333;
+  --border-color: #1f1f28;
+  --panel-border: rgba(255, 255, 255, 0.06);
+  --panel-bg: transparent;
+  --shadow-panel: 0 18px 60px rgba(0, 0, 0, 0.65);
   --success: #4ade80;
   --warning: #fbbf24;
   --error: #ef4444;
@@ -74,12 +77,10 @@ body {
   border: none;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
   box-shadow: 0 0 15px rgba(255, 77, 141, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
   box-shadow: 0 0 20px rgba(255, 77, 141, 0.5), 0 4px 12px rgba(255, 77, 141, 0.3);
 }
 
@@ -89,7 +90,6 @@ body {
   padding: 8px 16px;
   border-radius: 8px;
   border: 1px solid #2a2a2a;
-  transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
@@ -105,7 +105,6 @@ body {
   border-radius: 50%;
   width: 36px;
   height: 36px;
-  transition: all 0.3s ease;
   border: 1px solid transparent;
 }
 
@@ -118,10 +117,10 @@ body {
 
 /* Input Styles */
 input, textarea, select {
-  background: #0f0f0f;
+  background: rgba(10, 10, 12, 0.9);
   color: #ffffff;
-  border: 1px solid #2a2a2a;
-  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   padding: 10px 12px;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -130,7 +129,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: #ff4d8d;
-  box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.12);
 }
 
 input::placeholder, textarea::placeholder {
@@ -139,9 +138,9 @@ input::placeholder, textarea::placeholder {
 
 /* Card Styles */
 .card {
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
+  background: rgba(15, 15, 18, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
   padding: 20px;
   transition: all 0.3s ease;
   position: relative;
@@ -162,7 +161,7 @@ input::placeholder, textarea::placeholder {
 
 .card:hover {
   border-color: #ff4d8d;
-  box-shadow: 0 0 20px rgba(255, 77, 141, 0.3), 0 4px 12px rgba(255, 77, 141, 0.2);
+  box-shadow: 0 0 24px rgba(255, 77, 141, 0.22), 0 16px 50px rgba(0, 0, 0, 0.55);
   transform: translateY(-2px);
 }
 

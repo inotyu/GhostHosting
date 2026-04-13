@@ -24,26 +24,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
   };
 
   const sidebarItems: SidebarItem[] = [
-    { id: 'ai-assistant', label: 'AI Assistant', icon: <Star size={18} style={{ color: '#ff4d8d' }} /> },
-    { id: 'overview', label: 'Overview', icon: <Home size={18} style={{ color: '#ff4d8d' }} /> },
-    { id: 'customization', label: 'Customization', icon: <Settings size={18} style={{ color: '#ff4d8d' }} /> },
-    { id: 'socials', label: 'Socials', icon: <Users size={18} style={{ color: '#ff4d8d' }} /> },
-    { id: 'content', label: 'Content', icon: <Image size={18} style={{ color: '#ff4d8d' }} /> },
-    { id: 'applications', label: 'Applications', icon: <Target size={18} style={{ color: '#ff4d8d' }} /> },
+    { id: 'ai-assistant', label: 'Assistente IA', icon: <Star size={18} style={{ color: '#ff4d8d' }} /> },
+    { id: 'overview', label: 'Visão Geral', icon: <Home size={18} style={{ color: '#ff4d8d' }} /> },
+    { id: 'customization', label: 'Personalização', icon: <Settings size={18} style={{ color: '#ff4d8d' }} /> },
+    { id: 'socials', label: 'Redes Sociais', icon: <Users size={18} style={{ color: '#ff4d8d' }} /> },
+    { id: 'content', label: 'Conteúdo', icon: <Image size={18} style={{ color: '#ff4d8d' }} /> },
+    { id: 'applications', label: 'Aplicativos', icon: <Target size={18} style={{ color: '#ff4d8d' }} /> },
     {
       id: 'image-host',
-      label: 'Image Host',
+      label: 'Hospedagem de Imagens',
       icon: <Image size={18} style={{ color: '#ff4d8d' }} />,
       expanded: true,
       children: [
-        { id: 'overview', label: 'Overview', icon: <Home size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/overview' },
-        { id: 'upload', label: 'Upload', icon: <UploadIcon size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/upload' },
-        { id: 'gallery', label: 'Gallery', icon: <GalleryVertical size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/gallery' },
-        { id: 'folders', label: 'Folders', icon: <FolderOpen size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/folders' },
-        { id: 'overlays', label: 'Overlays', icon: <Layers size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/overlays' }
+        { id: 'overview', label: 'Visão Geral', icon: <Home size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/overview' },
+        { id: 'upload', label: 'Enviar', icon: <UploadIcon size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/upload' },
+        { id: 'gallery', label: 'Galeria', icon: <GalleryVertical size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/gallery' },
+        { id: 'folders', label: 'Pastas', icon: <FolderOpen size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/folders' },
+        { id: 'overlays', label: 'Sobreposições', icon: <Layers size={16} style={{ color: '#ff4d8d' }} />, path: '/image-host/overlays' }
       ]
     },
-    { id: 'account', label: 'Account', icon: <User size={18} style={{ color: '#ff4d8d' }} /> }
+    { id: 'account', label: 'Conta', icon: <User size={18} style={{ color: '#ff4d8d' }} /> }
   ];
 
   const toggleExpanded = (itemId: string) => {
@@ -86,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
           </Link>
         ) : (
           <div
-            className={`${styles.sidebarItemContent} ${level > 0 ? styles.subItem : ''}`}
+            className={`${styles.sidebarItemContent} ${level > 0 ? styles.subItem : ''} ${isActive ? styles.active : ''}`}
             style={{ paddingLeft: `${level * 20 + 16}px` }}
             onClick={() => hasChildren && toggleExpanded(item.id)}
           >
@@ -119,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
             <Search size={18} className={styles.searchIcon} />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Pesquisar..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={styles.searchInput}
@@ -134,16 +134,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
 
         <div className={styles.sidebarFooter}>
           <div className={styles.bottomIcons}>
-            <button className="btn-icon">
+            <button className={`btn-icon ${styles.iconPink}`}>
               <SquareArrowOutUpRight size={18} />
             </button>
-            <button className="btn-icon">
+            <button className={`btn-icon ${styles.iconBlue}`}>
               <Grid3x3 size={18} />
             </button>
-            <button className="btn-icon">
+            <button className={`btn-icon ${styles.iconGreen}`}>
               <Target size={18} />
             </button>
-            <button className="btn-icon">
+            <button className={`btn-icon ${styles.iconPink}`}>
               <Users size={18} />
             </button>
           </div>

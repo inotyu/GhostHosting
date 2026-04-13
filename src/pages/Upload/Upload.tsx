@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Upload as UploadIcon, Cloud, CheckCircle, Bell, Copy } from 'lucide-react';
+import React, { useState } from 'react';
+import { Upload as UploadIcon, Cloud, Bell, Copy, Upload as UploadStatIcon, Calendar, File, HardDrive, Circle } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import { useToastContext } from '../../contexts/ToastContext';
@@ -67,14 +67,14 @@ const Upload: React.FC = () => {
     // Validate file type
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm', 'video/ogg', 'application/zip', 'application/x-zip-compressed'];
     if (!validTypes.includes(file.type)) {
-      showError('Invalid file type. Please upload images, videos, or ZIP files only.');
+      showError('Tipo de arquivo inválido. Envie apenas imagens, vídeos ou arquivos ZIP.');
       return;
     }
 
     // Validate file size (100MB limit)
     const maxSize = 100 * 1024 * 1024; // 100MB
     if (file.size > maxSize) {
-      showError('File too large. Maximum size is 100MB.');
+      showError('Arquivo muito grande. O tamanho máximo é 100MB.');
       return;
     }
 
@@ -100,12 +100,12 @@ const Upload: React.FC = () => {
       }
       
       // Add file to the file system
-      addFile(file, 'root', url, thumbnail);
+      addFile(file, '', url, thumbnail);
       
       // Show success and reset
       setTimeout(() => {
         setUploadedFileUrl(url);
-        showSuccessToast('File uploaded successfully!');
+        showSuccessToast('Arquivo enviado com sucesso!');
         setIsUploading(false);
         setUploadProgress(0);
       }, 500);
@@ -132,7 +132,7 @@ const Upload: React.FC = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(uploadedFileUrl);
-    showSuccessToast('Link copied to clipboard!');
+    showSuccessToast('Link copiado para a área de transferência!');
   };
 
   const testNotification = () => {
@@ -140,37 +140,50 @@ const Upload: React.FC = () => {
   };
 
   const stats = [
-    { title: 'Total Uploads', value: 5 },
-    { title: 'Uploads Today', value: 2 },
-    { title: 'File Size Limit', value: '100MB' },
-    { title: 'Used Space', value: '73.46MB' },
-    { title: 'Free Space', value: '950.54MB' }
+    { title: 'Total de Envios', value: 5 },
+    { title: 'Envios Hoje', value: 2 },
+    { title: 'Limite de Tamanho', value: '100MB' },
+    { title: 'Espaço Usado', value: '73.46MB' },
+    { title: 'Espaço Livre', value: '950.54MB' }
   ];
+
+  const getStatIcon = (title: string) => {
+    if (title === 'Total de Envios') return <UploadStatIcon size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Envios Hoje') return <Calendar size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Limite de Tamanho') return <File size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Espaço Usado') return <HardDrive size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Espaço Livre') return <Circle size={16} style={{ color: '#ff4d8d' }} />;
+    return <Circle size={16} style={{ color: '#ff4d8d' }} />;
+  };
 
   return (
     <Layout>
       <div className={styles.uploadPage} onPaste={handlePaste}>
         {/* Breadcrumbs */}
-        <div className={styles.breadcrumbs}>
-          <span>Dashboard</span>
-          <span className={styles.separator}>{'>'}</span>
-          <span>Image Host</span>
-          <span className={styles.separator}>{'>'}</span>
-          <span className={styles.current}>Upload</span>
-        </div>
+        {false && (
+          <div className={styles.breadcrumbs}>
+            <span>Dashboard</span>
+            <span className={styles.separator}>{'>'}</span>
+            <span>Image Host</span>
+            <span className={styles.separator}>{'>'}</span>
+            <span className={styles.current}>Enviar</span>
+          </div>
+        )}
 
         {/* Header */}
-        <div className={styles.header}>
-          <h1 className={styles.pageTitle}>Upload</h1>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button className="btn-secondary" onClick={testNotification}>
-              Test Toast
-            </button>
-            <button className={`btn-icon ${styles.notificationBtn}`}>
-              <Bell size={20} />
-            </button>
+        {false && (
+          <div className={styles.header}>
+            <h1 className={styles.pageTitle}>Enviar</h1>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button className="btn-secondary" onClick={testNotification}>
+                Testar Notificação
+              </button>
+              <button className={`btn-icon ${styles.notificationBtn}`}>
+                <Bell size={20} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         
         {/* Progress Bar */}
@@ -185,7 +198,10 @@ const Upload: React.FC = () => {
         <div className={styles.statsGrid}>
           {stats.map((stat, index) => (
             <div key={index} className={styles.statCard}>
-              <h3 className={styles.statTitle}>{stat.title}</h3>
+              <div className={styles.statHeader}>
+                <span className={styles.statIcon}>{getStatIcon(stat.title)}</span>
+                <h3 className={styles.statTitle}>{stat.title}</h3>
+              </div>
               <p className={styles.statValue}>{stat.value}</p>
             </div>
           ))}
@@ -211,9 +227,9 @@ const Upload: React.FC = () => {
           <div className={styles.uploadContent}>
             <Cloud size={64} className={styles.uploadIcon} />
             <UploadIcon size={32} className={styles.uploadArrow} />
-            <h2 className={styles.uploadTitle}>Images, Videos & ZIP: Click, Drag & Drop or CTRL + V</h2>
+            <h2 className={styles.uploadTitle}>Imagens, Vídeos & ZIP: Clique, Arraste ou CTRL + V</h2>
             <p className={styles.uploadSubtitle}>
-              Files over 100MB use automatic chunked upload (25MB chunks)
+              Arquivos acima de 100MB usam upload em partes automático (25MB por parte)
             </p>
           </div>
         </div>
@@ -229,7 +245,7 @@ const Upload: React.FC = () => {
             />
             <button className={`btn-secondary ${styles.copyBtn}`} onClick={copyToClipboard}>
               <Copy size={16} />
-              Copy
+              Copiar
             </button>
           </div>
         )}

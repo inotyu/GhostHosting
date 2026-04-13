@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Search, Plus, Folder as FolderIcon, FolderOpen, MoreVertical, Lock, Globe, FileText, Video, Image as ImageIcon, Music, Archive } from 'lucide-react';
+import { Search, Plus, Folder as FolderIcon, FolderOpen, MoreVertical, Lock, Globe, FileText, Video, Image as ImageIcon, Music, Archive, HardDrive, Circle } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import CreateFolderModal from '../../components/Modals/CreateFolderModal/CreateFolderModal';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
+import { useFileSystem, FileSystemItem } from '../../hooks/useFileSystem';
 import styles from './Folders.module.css';
 
 interface Folder {
@@ -16,68 +17,70 @@ interface Folder {
 }
 
 const Folders: React.FC = () => {
+  const { items, createFolder, deleteItem, currentFolderId, setCurrentFolderId, getItemPath } = useFileSystem();
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [folderToDelete, setFolderToDelete] = useState<string | null>(null);
-  const [folders, setFolders] = useState<Folder[]>([
-    {
-      id: '1',
-      name: 'Screenshots',
-      isPrivate: false,
-      fileCount: 24,
-      size: '45.2MB',
-      createdDate: '2024-04-01',
-      icon: <ImageIcon size={20} style={{ color: '#ff4d8d' }} />
-    },
-    {
-      id: '2',
-      name: 'Videos',
-      isPrivate: true,
-      fileCount: 8,
-      size: '156.8MB',
-      createdDate: '2024-04-05',
-      icon: <Video size={20} style={{ color: '#ff4d8d' }} />
-    },
-    {
-      id: '3',
-      name: 'Music',
-      isPrivate: false,
-      fileCount: 12,
-      size: '89.4MB',
-      createdDate: '2024-04-08',
-      icon: <Music size={20} style={{ color: '#ff4d8d' }} />
-    },
-    {
-      id: '4',
-      name: 'Documents',
-      isPrivate: true,
-      fileCount: 5,
-      size: '12.3MB',
-      createdDate: '2024-04-10',
-      icon: <FileText size={20} style={{ color: '#ff4d8d' }} />
-    }
-  ]);
+
+  // Get folders from file system
+  const folders = items
+    .filter(item => item.type === 'folder' && item.parentId === currentFolderId && currentFolderId !== '')
+    .map(folder => {
+      const fileCount = items.filter(item => item.parentId === folder.id && item.type === 'file').length;
+      const totalSize = items
+        .filter(item => item.parentId === folder.id && item.type === 'file')
+        .reduce((acc, item) => acc + (item.size || 0), 0);
+
+      let icon;
+      if (folder.name.toLowerCase().includes('screenshot') || folder.name.toLowerCase().includes('imagem')) {
+        icon = <ImageIcon size={20} style={{ color: '#ff4d8d' }} />;
+      } else if (folder.name.toLowerCase().includes('video')) {
+        icon = <Video size={20} style={{ color: '#ff4d8d' }} />;
+      } else if (folder.name.toLowerCase().includes('music') || folder.name.toLowerCase().includes('áudio')) {
+        icon = <Music size={20} style={{ color: '#ff4d8d' }} />;
+      } else if (folder.name.toLowerCase().includes('document') || folder.name.toLowerCase().includes('arquivo')) {
+        icon = <FileText size={20} style={{ color: '#ff4d8d' }} />;
+      } else {
+        icon = <FolderIcon size={20} style={{ color: '#ff4d8d' }} />;
+      }
+
+      return {
+        id: folder.id,
+        name: folder.name,
+        isPrivate: folder.isPrivate || false,
+        fileCount,
+        size: totalSize > 0 ? `${(totalSize / 1024 / 1024).toFixed(1)}MB` : '0MB',
+        createdDate: new Date(folder.createdDate).toLocaleDateString('pt-BR'),
+        icon
+      };
+    });
+
+  const currentPath = getItemPath(currentFolderId);
 
   const stats = [
-    { title: 'Total Folders', value: folders.length },
-    { title: 'Total Files', value: 49 },
-    { title: 'File Size Limit', value: '100MB' },
-    { title: 'Used Space', value: '73.46MB' },
-    { title: 'Free Space', value: '950.54MB' }
+    { title: 'Total de Pastas', value: folders.length },
+    { title: 'Total de Arquivos', value: items.filter(item => item.type === 'file').length },
+    { title: 'Limite de Tamanho', value: '100MB' },
+    { title: 'Espaço Usado', value: '73.46MB' },
+    { title: 'Espaço Livre', value: '950.54MB' }
   ];
 
+  const getStatIcon = (title: string) => {
+    if (title === 'Total de Pastas') return <FolderIcon size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Total de Arquivos') return <FileText size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Limite de Tamanho') return <FileText size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Espaço Usado') return <HardDrive size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Espaço Livre') return <Circle size={16} style={{ color: '#ff4d8d' }} />;
+    return <Circle size={16} style={{ color: '#ff4d8d' }} />;
+  };
+
   const handleCreateFolder = (folderName: string, isPrivate: boolean) => {
-    const newFolder: Folder = {
-      id: Date.now().toString(),
-      name: folderName,
-      isPrivate,
-      fileCount: 0,
-      size: '0MB',
-      createdDate: new Date().toISOString().split('T')[0],
-      icon: <FolderIcon size={20} style={{ color: '#ff4d8d' }} />
-    };
-    setFolders([...folders, newFolder]);
+    // Only allow folder creation when inside another folder, not in root
+    if (currentFolderId === '') {
+      return;
+    }
+    createFolder(folderName, currentFolderId, isPrivate);
   };
 
   const deleteFolder = (folderId: string) => {
@@ -87,7 +90,7 @@ const Folders: React.FC = () => {
 
   const handleDeleteConfirm = () => {
     if (folderToDelete) {
-      setFolders(folders.filter(folder => folder.id !== folderToDelete));
+      deleteItem(folderToDelete);
     }
     setDeleteModalOpen(false);
     setFolderToDelete(null);
@@ -98,14 +101,11 @@ const Folders: React.FC = () => {
     setFolderToDelete(null);
   };
 
-  const togglePrivacy = (folderId: string) => {
-    setFolders(folders.map(folder =>
-      folder.id === folderId
-        ? { ...folder, isPrivate: !folder.isPrivate }
-        : folder
-    ));
+  const navigateToFolder = (folderId: string) => {
+    setCurrentFolderId(folderId);
   };
 
+  
   const filteredFolders = folders.filter(folder =>
     folder.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -113,43 +113,62 @@ const Folders: React.FC = () => {
   return (
     <Layout>
       <div className={styles.foldersPage}>
-        {/* Breadcrumbs */}
-        <div className={styles.breadcrumbs}>
-          <span>Dashboard</span>
-          <span className={styles.separator}>{'>'}</span>
-          <span>Image Host</span>
-          <span className={styles.separator}>{'>'}</span>
-          <span className={styles.current}>Folders</span>
-        </div>
-
         {/* Header */}
         <div className={styles.header}>
-          <h1 className={styles.pageTitle}>Folders</h1>
-          <button
-            className={`btn-primary ${styles.createFolderBtn}`}
-            onClick={() => setShowCreateModal(true)}
-          >
-            <Plus size={18} />
-            Create Folder
-          </button>
+          <h1 className={styles.pageTitle}>Pastas</h1>
+          {currentFolderId !== '' && (
+            <button
+              className={`btn-primary ${styles.createFolderBtn}`}
+              onClick={() => setShowCreateModal(true)}
+            >
+              <Plus size={18} />
+              Criar Pasta
+            </button>
+          )}
         </div>
 
         {/* Stats Cards */}
         <div className={styles.statsGrid}>
           {stats.map((stat, index) => (
             <div key={index} className={styles.statCard}>
-              <h3 className={styles.statTitle}>{stat.title}</h3>
+              <div className={styles.statHeader}>
+                <span className={styles.statIcon}>{getStatIcon(stat.title)}</span>
+                <h3 className={styles.statTitle}>{stat.title}</h3>
+              </div>
               <p className={styles.statValue}>{stat.value}</p>
             </div>
           ))}
         </div>
+
+        {/* Breadcrumbs */}
+        {currentPath.length > 0 && (
+          <div className={styles.breadcrumbs}>
+            <button 
+              className={styles.breadcrumbItem}
+              onClick={() => setCurrentFolderId('')}
+            >
+              Pastas
+            </button>
+            {currentPath.map((item: FileSystemItem) => (
+              <React.Fragment key={item.id}>
+                <span className={styles.breadcrumbSeparator}>/</span>
+                <button 
+                  className={styles.breadcrumbItem}
+                  onClick={() => setCurrentFolderId(item.id)}
+                >
+                  {item.name}
+                </button>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
 
         {/* Search */}
         <div className={styles.searchContainer}>
           <Search size={18} className={styles.searchIcon} />
           <input
             type="text"
-            placeholder="Search folders..."
+            placeholder="Pesquisar pastas..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={styles.searchInput}
@@ -158,53 +177,63 @@ const Folders: React.FC = () => {
 
         {/* Folders Grid */}
         <div className={styles.foldersGrid}>
-          {filteredFolders.map((folder) => (
-            <div key={folder.id} className={styles.folderCard}>
-              <div className={styles.folderHeader}>
-                <div className={styles.folderIcon}>
-                  {folder.icon || <FolderIcon size={20} style={{ color: '#ff4d8d' }} />}
-                </div>
-                <div className={styles.folderPrivacy}>
-                  {folder.isPrivate ? (
-                    <Lock size={16} style={{ color: '#666666' }} />
-                  ) : (
-                    <Globe size={16} style={{ color: '#666666' }} />
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.folderContent}>
-                <h3 className={styles.folderName}>{folder.name}</h3>
-                <div className={styles.folderMeta}>
-                  <span className={styles.fileCount}>{folder.fileCount} files</span>
-                  <span className={styles.folderSize}>{folder.size}</span>
-                </div>
-                <p className={styles.createdDate}>Created {folder.createdDate}</p>
-              </div>
-
-              <div className={styles.folderActions}>
-                <button className={`btn-icon ${styles.actionBtn}`}>
-                  <FolderOpen size={16} style={{ color: '#ff4d8d' }} />
-                </button>
-                <button
-                  className={`btn-icon ${styles.actionBtn}`}
-                  onClick={() => togglePrivacy(folder.id)}
-                >
-                  {folder.isPrivate ? (
-                    <Globe size={16} style={{ color: '#ff4d8d' }} />
-                  ) : (
-                    <Lock size={16} style={{ color: '#ff4d8d' }} />
-                  )}
-                </button>
-                <button
-                  className={`btn-icon ${styles.actionBtn}`}
-                  onClick={() => deleteFolder(folder.id)}
-                >
-                  <MoreVertical size={16} style={{ color: '#ff4d8d' }} />
-                </button>
-              </div>
+          {filteredFolders.length === 0 ? (
+            <div className={styles.emptyState}>
+              {currentFolderId === '' ? (
+                <>
+                  <FolderIcon size={48} style={{ color: '#666666' }} />
+                  <p>Nenhuma pasta criada ainda. Pastas não podem ser criadas na raiz.</p>
+                </>
+              ) : (
+                <>
+                  <FolderIcon size={48} style={{ color: '#666666' }} />
+                  <p>Nenhuma pasta nesta localização.</p>
+                </>
+              )}
             </div>
-          ))}
+          ) : (
+            filteredFolders.map((folder) => (
+              <div key={folder.id} className={styles.folderCard}>
+                <div className={styles.folderHeader}>
+                  <div className={styles.folderIcon}>
+                    {folder.icon || <FolderIcon size={20} style={{ color: '#ff4d8d' }} />}
+                  </div>
+                  <div className={styles.folderPrivacy}>
+                    {folder.isPrivate ? (
+                      <Lock size={16} style={{ color: '#666666' }} />
+                    ) : (
+                      <Globe size={16} style={{ color: '#666666' }} />
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.folderContent}>
+                  <h3 className={styles.folderName}>{folder.name}</h3>
+                  <div className={styles.folderMeta}>
+                    <span className={styles.fileCount}>{folder.fileCount} arquivos</span>
+                    <span className={styles.folderSize}>{folder.size}</span>
+                  </div>
+                  <p className={styles.createdDate}>Criado em {folder.createdDate}</p>
+                </div>
+
+                <div className={styles.folderActions}>
+                  <button 
+                    className={`btn-icon ${styles.actionBtn}`}
+                    onClick={() => navigateToFolder(folder.id)}
+                    title="Abrir Pasta"
+                  >
+                    <FolderOpen size={16} style={{ color: '#ff4d8d' }} />
+                  </button>
+                  <button
+                    className={`btn-icon ${styles.actionBtn}`}
+                    onClick={() => deleteFolder(folder.id)}
+                  >
+                    <MoreVertical size={16} style={{ color: '#ff4d8d' }} />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         {/* Create Folder Modal */}
@@ -217,12 +246,12 @@ const Folders: React.FC = () => {
         {/* Delete Confirmation Modal */}
         <ConfirmModal
           isOpen={deleteModalOpen}
-          title="Delete Folder"
-          message="Are you sure you want to delete this folder? All files inside will be permanently deleted."
+          title="Excluir Pasta"
+          message="Tem certeza que deseja excluir esta pasta? Todos os arquivos dentro serão permanentemente excluídos."
           onConfirm={handleDeleteConfirm}
           onCancel={handleDeleteCancel}
-          confirmText="Delete"
-          cancelText="Cancel"
+          confirmText="Excluir"
+          cancelText="Cancelar"
         />
       </div>
     </Layout>

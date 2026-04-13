@@ -1,6 +1,6 @@
 .overviewPage {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 
 .header {
@@ -29,49 +29,50 @@
 }
 
 .statCard {
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.3s ease;
+  background: rgba(46, 26, 36, 0.65);
+  border: 1px solid rgba(255, 77, 141, 0.22);
+  border-radius: 18px;
+  padding: 16px 18px;
+  transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
-}
-
-.statCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #ff4d8d, #ff6bb5);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  min-height: 86px;
 }
 
 .statCard:hover {
-  border-color: #ff4d8d;
-  box-shadow: 0 0 20px rgba(255, 77, 141, 0.3), 0 4px 12px rgba(255, 77, 141, 0.2);
-  transform: translateY(-2px);
+  border-color: rgba(255, 77, 141, 0.35);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
 }
 
-.statCard:hover::before {
-  opacity: 1;
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.statIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .statTitle {
-  font-size: 14px;
-  color: #a0a0a0;
-  margin: 0 0 8px 0;
-  font-weight: 500;
+  font-size: 13px;
+  color: rgba(255, 77, 141, 0.9);
+  margin: 0;
+  font-weight: 600;
 }
 
 .statValue {
-  font-size: 24px;
-  font-weight: 600;
-  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
   margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .chartsSection {
@@ -243,6 +244,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  position: relative;
 }
 
 .donut {
@@ -259,6 +261,7 @@
   justify-content: center;
   box-shadow: 0 0 20px rgba(255, 77, 141, 0.3);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .donut:hover {
@@ -283,7 +286,7 @@
 
 .totalFiles {
   font-size: 12px;
-  color: #a0a0a0;
+  color: #ffffff;
 }
 
 .totalCount {
