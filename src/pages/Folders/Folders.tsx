@@ -25,7 +25,7 @@ const Folders: React.FC = () => {
 
   // Get folders from file system
   const folders = items
-    .filter(item => item.type === 'folder' && item.parentId === currentFolderId && currentFolderId !== '')
+    .filter(item => item.type === 'folder' && item.name.toLowerCase() !== 'root')
     .map(folder => {
       const fileCount = items.filter(item => item.parentId === folder.id && item.type === 'file').length;
       const totalSize = items
@@ -76,10 +76,6 @@ const Folders: React.FC = () => {
   };
 
   const handleCreateFolder = (folderName: string, isPrivate: boolean) => {
-    // Only allow folder creation when inside another folder, not in root
-    if (currentFolderId === '') {
-      return;
-    }
     createFolder(folderName, currentFolderId, isPrivate);
   };
 
@@ -116,15 +112,13 @@ const Folders: React.FC = () => {
         {/* Header */}
         <div className={styles.header}>
           <h1 className={styles.pageTitle}>Pastas</h1>
-          {currentFolderId !== '' && (
-            <button
-              className={`btn-primary ${styles.createFolderBtn}`}
-              onClick={() => setShowCreateModal(true)}
-            >
-              <Plus size={18} />
-              Criar Pasta
-            </button>
-          )}
+          <button
+            className={`btn-primary ${styles.createFolderBtn}`}
+            onClick={() => setShowCreateModal(true)}
+          >
+            <Plus size={18} />
+            Criar Pasta
+          </button>
         </div>
 
         {/* Stats Cards */}
@@ -179,17 +173,8 @@ const Folders: React.FC = () => {
         <div className={styles.foldersGrid}>
           {filteredFolders.length === 0 ? (
             <div className={styles.emptyState}>
-              {currentFolderId === '' ? (
-                <>
-                  <FolderIcon size={48} style={{ color: '#666666' }} />
-                  <p>Nenhuma pasta criada ainda. Pastas não podem ser criadas na raiz.</p>
-                </>
-              ) : (
-                <>
-                  <FolderIcon size={48} style={{ color: '#666666' }} />
-                  <p>Nenhuma pasta nesta localização.</p>
-                </>
-              )}
+              <FolderIcon size={48} style={{ color: '#666666' }} />
+              <p>Nenhuma pasta criada ainda. Clique em "Criar Pasta" para começar.</p>
             </div>
           ) : (
             filteredFolders.map((folder) => (

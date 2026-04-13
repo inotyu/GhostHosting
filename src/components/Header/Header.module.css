@@ -2,7 +2,7 @@
   display: none;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 24px 28px;
   background: #0f0f0f;
   border-bottom: 1px solid #2a2a2a;
   position: sticky;
@@ -17,18 +17,18 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
 }
 
 .logoImage {
-  height: 32px;
+  height: 80px;
   width: auto;
   object-fit: contain;
 }
 
 .logoText {
   color: #ff4d8d;
-  font-size: 20px;
+  font-size: 32px;
   font-weight: bold;
   margin: 0;
 }

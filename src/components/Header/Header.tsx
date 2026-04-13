@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, X, Bell } from 'lucide-react';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo1.png';
 import styles from './Header.module.css';
 
 interface HeaderProps {

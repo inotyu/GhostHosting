@@ -87,16 +87,16 @@ Se não estiver satisfeito com as ferramentas de build, pode usar `eject` para t
 - Geração de thumbnails para vídeos
 
 ### Pastas (Folders)
-- Criação de pastas (apenas dentro de outras pastas)
+- Criação de pastas na root ou dentro de outras pastas
+- Visualização de todas as pastas (exceto pasta com nome "root")
 - Navegação hierárquica com breadcrumbs
-- Visualização de conteúdo das pastas
 - Gerenciamento de pastas (renomear, mover, excluir)
 
 ## Sistema de Arquivos
 
 O sistema usa uma estrutura simples onde:
-- **Root**: Localização padrão para arquivos enviados (não aparece visualmente)
-- **Pastas**: Podem ser criadas apenas dentro de outras pastas
+- **Root**: Localização padrão para arquivos enviados e pastas criadas
+- **Pastas**: Podem ser criadas na root ou dentro de outras pastas
 - **Arquivos**: São armazenados em pastas ou na root
 
 Todos os dados são persistidos no localStorage do navegador.
