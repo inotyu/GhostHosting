@@ -1,6 +1,26 @@
 {
   "rewrites": [
     {
+      "source": "/api/health",
+      "destination": "/api/health.py"
+    },
+    {
+      "source": "/api/auth/verify",
+      "destination": "/api/auth/verify.py"
+    },
+    {
+      "source": "/api/files",
+      "destination": "/api/files/index.py"
+    },
+    {
+      "source": "/api/files/:path*",
+      "destination": "/api/files/index.py"
+    },
+    {
+      "source": "/api/files/upload",
+      "destination": "/api/files/upload.py"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
