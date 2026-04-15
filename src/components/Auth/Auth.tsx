@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Auth.module.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://ghost-hostinger.vercel.app';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 interface AuthProps {
   children: React.ReactNode;

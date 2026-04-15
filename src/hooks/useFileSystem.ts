@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://ghost-hostinger.vercel.app';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 export interface FileSystemItem {
   id: string;
