@@ -1,2 +1,2 @@
 [project.scripts]
-app = "backend.app:app"
+app = "app:app"
