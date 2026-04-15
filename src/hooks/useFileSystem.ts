@@ -219,6 +219,7 @@ export const useFileSystem = () => {
     const path: FileSystemItem[] = [];
     let currentId = itemId;
 
+    // eslint-disable-next-line no-loop-func
     while (currentId) {
       const item = items.find(i => i.id === currentId);
       if (!item) break;
@@ -227,7 +228,6 @@ export const useFileSystem = () => {
     }
 
     return path;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   const getItem = useCallback((id: string) => {
