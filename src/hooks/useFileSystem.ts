@@ -69,7 +69,7 @@ export const useFileSystem = () => {
 
   const createFolder = useCallback(async (name: string, parentId: string = currentFolderId, isPrivate: boolean = false) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/files/folders`, {
+      const response = await fetch(`${API_BASE_URL}/api/files/folders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, parent_id: parentId })
@@ -97,7 +97,7 @@ export const useFileSystem = () => {
         formData.append('parent_id', parentId);
       }
       
-      const response = await fetch(`${API_BASE_URL}/files/upload`, {
+      const response = await fetch(`${API_BASE_URL}/api/files/upload`, {
         method: 'POST',
         body: formData
       });
@@ -122,7 +122,7 @@ export const useFileSystem = () => {
       if (!item) return;
 
       if (item.type === 'folder') {
-        const response = await fetch(`${API_BASE_URL}/files/folders/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/files/folders/${id}`, {
           method: 'DELETE'
         });
         const result = await response.json();
@@ -131,7 +131,7 @@ export const useFileSystem = () => {
           throw new Error(result.error || 'Failed to delete folder');
         }
       } else {
-        const response = await fetch(`${API_BASE_URL}/files/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/files/${id}`, {
           method: 'DELETE'
         });
         const result = await response.json();
@@ -150,7 +150,7 @@ export const useFileSystem = () => {
 
   const moveItem = useCallback(async (itemId: string, newParentId: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/files/${itemId}/move`, {
+      const response = await fetch(`${API_BASE_URL}/api/files/${itemId}/move`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target_parent_id: newParentId })
@@ -171,7 +171,7 @@ export const useFileSystem = () => {
 
   const renameItem = useCallback(async (id: string, newName: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/files/${id}/rename`, {
+      const response = await fetch(`${API_BASE_URL}/api/files/${id}/rename`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ new_name: newName })
@@ -192,7 +192,7 @@ export const useFileSystem = () => {
 
   const copyItem = useCallback(async (itemId: string, targetParentId: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/files/${itemId}/copy`, {
+      const response = await fetch(`${API_BASE_URL}/api/files/${itemId}/copy`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target_parent_id: targetParentId })
