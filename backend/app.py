@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 
 # Import backend app factory
-from backend.app import create_app
+from app import create_app
 
 # Create Flask app instance (Vercel requires 'app' variable)
 app = create_app()
