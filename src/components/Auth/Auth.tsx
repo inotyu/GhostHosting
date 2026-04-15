@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Auth.module.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 interface AuthProps {
   children: React.ReactNode;
