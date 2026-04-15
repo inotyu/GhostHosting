@@ -219,8 +219,7 @@ export const useFileSystem = () => {
     const path: FileSystemItem[] = [];
     let currentId = itemId;
 
-    // eslint-disable-next-line no-loop-func
-    while (currentId) {
+    for (let i = 0; i < 100 && currentId; i++) {
       const item = items.find(i => i.id === currentId);
       if (!item) break;
       path.unshift(item);
