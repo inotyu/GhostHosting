@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { TrendingUp, PieChart, Upload, Calendar, File, HardDrive, Circle, Video, ImageIcon } from 'lucide-react';
+import { TrendingUp, PieChart, Calendar, File, HardDrive, Circle, Video, ImageIcon } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import { useFileSystem } from '../../hooks/useFileSystem';
 import styles from './Overview.module.css';
@@ -7,7 +7,7 @@ import styles from './Overview.module.css';
 const Overview: React.FC = () => {
   const [timeframe, setTimeframe] = useState('7d');
   const [dataType, setDataType] = useState('daily');
-  const { items, loading } = useFileSystem();
+  const { items } = useFileSystem();
 
   // Calculate stats from actual data
   const videoCount = items.filter(item => item.type === 'file' && item.mimeType?.startsWith('video')).length;

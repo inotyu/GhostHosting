@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { X, Download, Copy, Maximize2, Play } from 'lucide-react';
+import { X, Download, Copy, Maximize2 } from 'lucide-react';
 import styles from './VideoPlayerModal.module.css';
 
 interface VideoPlayerModalProps {

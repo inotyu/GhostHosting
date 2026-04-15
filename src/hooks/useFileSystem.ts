@@ -45,11 +45,6 @@ export const useFileSystem = () => {
   const [currentFolderId, setCurrentFolderId] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Load items from backend on mount
-  useEffect(() => {
-    loadItems();
-  }, []);
-
   const loadItems = useCallback(async () => {
     setLoading(true);
     try {
@@ -66,6 +61,11 @@ export const useFileSystem = () => {
       setLoading(false);
     }
   }, [currentFolderId]);
+
+  // Load items from backend on mount
+  useEffect(() => {
+    loadItems();
+  }, [loadItems]);
 
   const createFolder = useCallback(async (name: string, parentId: string = currentFolderId, isPrivate: boolean = false) => {
     try {
@@ -218,15 +218,16 @@ export const useFileSystem = () => {
   const getItemPath = useCallback((itemId: string): FileSystemItem[] => {
     const path: FileSystemItem[] = [];
     let currentId = itemId;
-    
+
     while (currentId) {
       const item = items.find(i => i.id === currentId);
       if (!item) break;
       path.unshift(item);
       currentId = item.parentId;
     }
-    
+
     return path;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   const getItem = useCallback((id: string) => {

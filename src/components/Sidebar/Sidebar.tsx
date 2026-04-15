@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Search, ChevronDown, ChevronRight, Settings, Users, Target, Grid3x3, SquareArrowOutUpRight, LogOut, Star, Image, Layers, User, Home, Upload as UploadIcon, GalleryVertical, FolderOpen } from 'lucide-react';
 import logo from '../../assets/logo1.png';
 import dwiAvatar from '../../assets/dwi.png';
@@ -14,7 +14,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
   const [expandedItems, setExpandedItems] = useState<string[]>(['image-host']);
   const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate();
   const location = useLocation();
 
   const user: UserType = {

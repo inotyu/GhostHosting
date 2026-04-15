@@ -26,6 +26,10 @@ interface ToastProviderProps {
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const [toasts, setToasts] = useState<ToastProps[]>([]);
 
+  const removeToast = useCallback((id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  }, []);
+
   const addToast = useCallback((message: string, type: ToastProps['type'] = 'info', duration?: number) => {
     const id = Date.now().toString();
     const newToast: ToastProps = {
@@ -35,14 +39,10 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
       duration,
       onClose: () => removeToast(id)
     };
-    
+
     setToasts(prev => [...prev, newToast]);
     return id;
-  }, []);
-
-  const removeToast = useCallback((id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
-  }, []);
+  }, [removeToast]);
 
   const showSuccess = useCallback((message: string, duration?: number) => {
     return addToast(message, 'success', duration);

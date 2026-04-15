@@ -4,7 +4,6 @@ import Layout from '../../components/Layout/Layout';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import { useToastContext } from '../../contexts/ToastContext';
 import { useFileSystem } from '../../hooks/useFileSystem';
-import { generateVideoThumbnail, isVideoFile } from '../../utils/videoUtils';
 import styles from './Upload.module.css';
 
 const Upload: React.FC = () => {
@@ -91,8 +90,8 @@ const Upload: React.FC = () => {
     const processFile = async () => {
       try {
         // Add file to the backend
-        const fileId = await addFile(file, '');
-        
+        await addFile(file, '');
+
         // Show success and reset
         setTimeout(() => {
           setUploadedFileUrl(url);

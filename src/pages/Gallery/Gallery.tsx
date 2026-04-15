@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Eye, Download, Play, Trash2, Star, Video, Image as ImageIcon, Filter, RefreshCw, Copy, Folder as FolderIcon, FolderOpen, Edit, Move, Plus, Upload, Calendar, File, HardDrive, Circle, Link } from 'lucide-react';
+import { Search, Eye, Download, Play, Trash2, Star, Video, Image as ImageIcon, RefreshCw, Copy, Edit, Move, Upload, Calendar, File, HardDrive, Circle, Link } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
 import RenameModal from '../../components/Modals/RenameModal/RenameModal';
@@ -13,7 +13,6 @@ import styles from './Gallery.module.css';
 const Gallery: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [fileToDelete, setFileToDelete] = useState<string | null>(null);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
@@ -24,19 +23,16 @@ const Gallery: React.FC = () => {
   const [itemToCopy, setItemToCopy] = useState<FileSystemItem | null>(null);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoToPlay, setVideoToPlay] = useState<FileSystemItem | null>(null);
-  
+
   const { showSuccess } = useToastContext();
   const {
     items,
     currentFolderId,
     setCurrentFolderId,
-    createFolder,
-    addFile,
     deleteItem,
     moveItem,
     renameItem,
     copyItem,
-    getItemsInFolder,
     getItemPath
   } = useFileSystem();
 
@@ -125,18 +121,6 @@ const Gallery: React.FC = () => {
   const handleDeleteCancel = () => {
     setDeleteModalOpen(false);
     setFileToDelete(null);
-  };
-
-  const toggleFileSelection = (fileId: string) => {
-    setSelectedFiles(prev =>
-      prev.includes(fileId)
-        ? prev.filter(id => id !== fileId)
-        : [...prev, fileId]
-    );
-  };
-
-  const openFolder = (folderId: string) => {
-    setCurrentFolderId(folderId);
   };
 
   const openRenameModal = (item: FileSystemItem) => {

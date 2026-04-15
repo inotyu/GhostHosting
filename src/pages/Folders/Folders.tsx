@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Plus, Folder as FolderIcon, FolderOpen, MoreVertical, Lock, Globe, FileText, Video, Image as ImageIcon, Music, Archive, HardDrive, Circle, Copy, Move } from 'lucide-react';
+import { Search, Plus, Folder as FolderIcon, FolderOpen, MoreVertical, Lock, Globe, FileText, Video, Image as ImageIcon, Music, HardDrive, Circle, Copy, Move } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import CreateFolderModal from '../../components/Modals/CreateFolderModal/CreateFolderModal';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
@@ -9,6 +9,7 @@ import { useFileSystem, FileSystemItem } from '../../hooks/useFileSystem';
 import { useToastContext } from '../../contexts/ToastContext';
 import styles from './Folders.module.css';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Folder {
   id: string;
   name: string;
