@@ -7,8 +7,20 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "index.py"
+    },
+    {
+      "src": "/auth/(.*)",
+      "dest": "index.py"
+    },
+    {
+      "src": "/files/(.*)",
+      "dest": "index.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
