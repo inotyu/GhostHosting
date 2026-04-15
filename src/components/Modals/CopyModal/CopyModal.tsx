@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Folder as FolderIcon, ChevronRight, ChevronDown, Move as MoveIcon } from 'lucide-react';
-import styles from './MoveModal.module.css';
+import { Folder as FolderIcon, ChevronRight, ChevronDown, Copy as CopyIcon } from 'lucide-react';
+import styles from './CopyModal.module.css';
 
 interface Folder {
   id: string;
@@ -9,22 +9,22 @@ interface Folder {
   children: Folder[];
 }
 
-interface MoveModalProps {
+interface CopyModalProps {
   isOpen: boolean;
   itemName: string;
   folders: Folder[];
   currentFolderId: string;
   onClose: () => void;
-  onMove: (targetFolderId: string) => void;
+  onCopy: (targetFolderId: string) => void;
 }
 
-const MoveModal: React.FC<MoveModalProps> = ({ 
+const CopyModal: React.FC<CopyModalProps> = ({ 
   isOpen, 
   itemName, 
   folders, 
   currentFolderId,
   onClose, 
-  onMove 
+  onCopy 
 }) => {
   const [selectedFolderId, setSelectedFolderId] = useState(currentFolderId);
   const [expandedFolders, setExpandedFolders] = useState<string[]>(['root']);
@@ -75,7 +75,7 @@ const MoveModal: React.FC<MoveModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onMove(selectedFolderId);
+    onCopy(selectedFolderId);
     onClose();
   };
 
@@ -96,8 +96,8 @@ const MoveModal: React.FC<MoveModalProps> = ({
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <MoveIcon size={24} style={{ color: '#ff4d8d', marginRight: '12px' }} />
-          <h2 className={styles.modalTitle}>Mover "{itemName}"</h2>
+          <CopyIcon size={24} style={{ color: '#ff4d8d', marginRight: '12px' }} />
+          <h2 className={styles.modalTitle}>Copiar "{itemName}"</h2>
         </div>
         
         <form onSubmit={handleSubmit} className={styles.modalForm}>
@@ -120,9 +120,9 @@ const MoveModal: React.FC<MoveModalProps> = ({
             </button>
             <button
               type="submit"
-              className={`btn-primary ${styles.moveBtn}`}
+              className={`btn-primary ${styles.copyBtn}`}
             >
-              Mover para Cá
+              Copiar para Cá
             </button>
           </div>
         </form>
@@ -131,4 +131,4 @@ const MoveModal: React.FC<MoveModalProps> = ({
   );
 };
 
-export default MoveModal;
+export default CopyModal;

@@ -12,7 +12,7 @@ const Upload: React.FC = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState('');
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const { showSuccess: showSuccessToast, showError } = useToastContext();
-  const { addFile } = useFileSystem();
+  const { addFile, items } = useFileSystem();
   
   // Progress states
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -89,26 +89,23 @@ const Upload: React.FC = () => {
     
     // Generate thumbnail for video files
     const processFile = async () => {
-      let thumbnail = undefined;
-      
-      if (isVideoFile(file)) {
-        try {
-          thumbnail = await generateVideoThumbnail(file);
-        } catch (error) {
-          console.warn('Could not generate video thumbnail:', error);
-        }
-      }
-      
-      // Add file to the file system
-      addFile(file, '', url, thumbnail);
-      
-      // Show success and reset
-      setTimeout(() => {
-        setUploadedFileUrl(url);
-        showSuccessToast('Arquivo enviado com sucesso!');
+      try {
+        // Add file to the backend
+        const fileId = await addFile(file, '');
+        
+        // Show success and reset
+        setTimeout(() => {
+          setUploadedFileUrl(url);
+          showSuccessToast('Arquivo enviado com sucesso!');
+          setIsUploading(false);
+          setUploadProgress(0);
+        }, 500);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        showError('Erro ao enviar arquivo');
         setIsUploading(false);
         setUploadProgress(0);
-      }, 500);
+      }
     };
     
     // Simulate upload progress
@@ -139,16 +136,28 @@ const Upload: React.FC = () => {
     showSuccessToast('Test notification working!');
   };
 
+  // Calculate stats from actual data
+  const totalSize = items.filter(item => item.type === 'file').reduce((acc, item) => acc + (item.size || 0), 0);
+  const sizeInMB = (totalSize / 1024 / 1024).toFixed(2);
+  const sizeLimitMB = 100;
+  const freeSpaceMB = (sizeLimitMB - parseFloat(sizeInMB)).toFixed(2);
+
+  // Calculate uploads today
+  const today = new Date().toDateString();
+  const uploadsToday = items.filter(item =>
+    item.type === 'file' && new Date(item.createdDate).toDateString() === today
+  ).length;
+
   const stats = [
-    { title: 'Total de Envios', value: 5 },
-    { title: 'Envios Hoje', value: 2 },
+    { title: 'Total de Arquivos', value: items.filter(item => item.type === 'file').length },
+    { title: 'Envios Hoje', value: uploadsToday },
     { title: 'Limite de Tamanho', value: '100MB' },
-    { title: 'Espaço Usado', value: '73.46MB' },
-    { title: 'Espaço Livre', value: '950.54MB' }
+    { title: 'Espaço Usado', value: `${sizeInMB}MB` },
+    { title: 'Espaço Livre', value: `${freeSpaceMB}MB` }
   ];
 
   const getStatIcon = (title: string) => {
-    if (title === 'Total de Envios') return <UploadStatIcon size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Total de Arquivos') return <UploadStatIcon size={16} style={{ color: '#ff4d8d' }} />;
     if (title === 'Envios Hoje') return <Calendar size={16} style={{ color: '#ff4d8d' }} />;
     if (title === 'Limite de Tamanho') return <File size={16} style={{ color: '#ff4d8d' }} />;
     if (title === 'Espaço Usado') return <HardDrive size={16} style={{ color: '#ff4d8d' }} />;

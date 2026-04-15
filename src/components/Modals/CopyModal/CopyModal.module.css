@@ -139,7 +139,7 @@
   transition: all 0.2s ease;
 }
 
-.moveBtn {
+.copyBtn {
   padding: 10px 20px;
   border: none;
   border-radius: 8px;

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Search, Plus, Folder as FolderIcon, FolderOpen, MoreVertical, Lock, Globe, FileText, Video, Image as ImageIcon, Music, Archive, HardDrive, Circle } from 'lucide-react';
+import { Search, Plus, Folder as FolderIcon, FolderOpen, MoreVertical, Lock, Globe, FileText, Video, Image as ImageIcon, Music, Archive, HardDrive, Circle, Copy, Move } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import CreateFolderModal from '../../components/Modals/CreateFolderModal/CreateFolderModal';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
+import CopyModal from '../../components/Modals/CopyModal/CopyModal';
+import MoveModal from '../../components/Modals/MoveModal/MoveModal';
 import { useFileSystem, FileSystemItem } from '../../hooks/useFileSystem';
+import { useToastContext } from '../../contexts/ToastContext';
 import styles from './Folders.module.css';
 
 interface Folder {
@@ -17,11 +20,16 @@ interface Folder {
 }
 
 const Folders: React.FC = () => {
-  const { items, createFolder, deleteItem, currentFolderId, setCurrentFolderId, getItemPath } = useFileSystem();
+  const { items, createFolder, deleteItem, currentFolderId, setCurrentFolderId, getItemPath, copyItem, moveItem } = useFileSystem();
+  const { showSuccess } = useToastContext();
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [folderToDelete, setFolderToDelete] = useState<string | null>(null);
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [itemToCopy, setItemToCopy] = useState<FileSystemItem | null>(null);
+  const [moveModalOpen, setMoveModalOpen] = useState(false);
+  const [itemToMove, setItemToMove] = useState<FileSystemItem | null>(null);
 
   // Get folders from file system
   const folders = items
@@ -58,12 +66,18 @@ const Folders: React.FC = () => {
 
   const currentPath = getItemPath(currentFolderId);
 
+  // Calculate stats from actual data
+  const totalSize = items.filter(item => item.type === 'file').reduce((acc, item) => acc + (item.size || 0), 0);
+  const sizeInMB = (totalSize / 1024 / 1024).toFixed(2);
+  const sizeLimitMB = 100;
+  const freeSpaceMB = (sizeLimitMB - parseFloat(sizeInMB)).toFixed(2);
+
   const stats = [
     { title: 'Total de Pastas', value: folders.length },
     { title: 'Total de Arquivos', value: items.filter(item => item.type === 'file').length },
     { title: 'Limite de Tamanho', value: '100MB' },
-    { title: 'Espaço Usado', value: '73.46MB' },
-    { title: 'Espaço Livre', value: '950.54MB' }
+    { title: 'Espaço Usado', value: `${sizeInMB}MB` },
+    { title: 'Espaço Livre', value: `${freeSpaceMB}MB` }
   ];
 
   const getStatIcon = (title: string) => {
@@ -75,8 +89,13 @@ const Folders: React.FC = () => {
     return <Circle size={16} style={{ color: '#ff4d8d' }} />;
   };
 
-  const handleCreateFolder = (folderName: string, isPrivate: boolean) => {
-    createFolder(folderName, currentFolderId, isPrivate);
+  const handleCreateFolder = async (folderName: string, isPrivate: boolean) => {
+    try {
+      await createFolder(folderName, currentFolderId, isPrivate);
+      showSuccess('Pasta criada com sucesso!');
+    } catch (error) {
+      console.error('Error creating folder:', error);
+    }
   };
 
   const deleteFolder = (folderId: string) => {
@@ -84,9 +103,14 @@ const Folders: React.FC = () => {
     setDeleteModalOpen(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (folderToDelete) {
-      deleteItem(folderToDelete);
+      try {
+        await deleteItem(folderToDelete);
+        showSuccess('Pasta excluída com sucesso!');
+      } catch (error) {
+        console.error('Error deleting folder:', error);
+      }
     }
     setDeleteModalOpen(false);
     setFolderToDelete(null);
@@ -97,8 +121,61 @@ const Folders: React.FC = () => {
     setFolderToDelete(null);
   };
 
+  const handleCopy = async (targetFolderId: string) => {
+    if (itemToCopy) {
+      try {
+        await copyItem(itemToCopy.id, targetFolderId);
+        showSuccess('Pasta copiada com sucesso!');
+      } catch (error) {
+        console.error('Error copying folder:', error);
+      }
+    }
+  };
+
+  const handleMove = async (targetFolderId: string) => {
+    if (itemToMove) {
+      try {
+        await moveItem(itemToMove.id, targetFolderId);
+        showSuccess('Pasta movida com sucesso!');
+      } catch (error) {
+        console.error('Error moving folder:', error);
+      }
+    }
+  };
+
+  const openCopyModal = (item: FileSystemItem) => {
+    setItemToCopy(item);
+    setCopyModalOpen(true);
+  };
+
+  const openMoveModal = (item: FileSystemItem) => {
+    setItemToMove(item);
+    setMoveModalOpen(true);
+  };
+
   const navigateToFolder = (folderId: string) => {
     setCurrentFolderId(folderId);
+  };
+
+  const buildFolderHierarchy = (folders: FileSystemItem[]) => {
+    const folderMap = new Map<string, any>();
+    folders.forEach(folder => {
+      folderMap.set(folder.id, { ...folder, children: [] });
+    });
+
+    const rootFolders: any[] = [];
+    folders.forEach(folder => {
+      if (folder.parentId === '' || !folderMap.has(folder.parentId)) {
+        rootFolders.push(folderMap.get(folder.id));
+      } else {
+        const parent = folderMap.get(folder.parentId);
+        if (parent) {
+          parent.children.push(folderMap.get(folder.id));
+        }
+      }
+    });
+
+    return rootFolders;
   };
 
   
@@ -202,12 +279,32 @@ const Folders: React.FC = () => {
                 </div>
 
                 <div className={styles.folderActions}>
-                  <button 
+                  <button
                     className={`btn-icon ${styles.actionBtn}`}
                     onClick={() => navigateToFolder(folder.id)}
                     title="Abrir Pasta"
                   >
                     <FolderOpen size={16} style={{ color: '#ff4d8d' }} />
+                  </button>
+                  <button
+                    className={`btn-icon ${styles.actionBtn}`}
+                    onClick={() => {
+                      const item = items.find(item => item.id === folder.id);
+                      if (item) openMoveModal(item);
+                    }}
+                    title="Mover"
+                  >
+                    <Move size={16} style={{ color: '#ff4d8d' }} />
+                  </button>
+                  <button
+                    className={`btn-icon ${styles.actionBtn}`}
+                    onClick={() => {
+                      const item = items.find(item => item.id === folder.id);
+                      if (item) openCopyModal(item);
+                    }}
+                    title="Copiar"
+                  >
+                    <Copy size={16} style={{ color: '#ff4d8d' }} />
                   </button>
                   <button
                     className={`btn-icon ${styles.actionBtn}`}
@@ -237,6 +334,26 @@ const Folders: React.FC = () => {
           onCancel={handleDeleteCancel}
           confirmText="Excluir"
           cancelText="Cancelar"
+        />
+
+        {/* Copy Modal */}
+        <CopyModal
+          isOpen={copyModalOpen}
+          itemName={itemToCopy?.name || ''}
+          folders={buildFolderHierarchy(items.filter(item => item.type === 'folder'))}
+          currentFolderId={currentFolderId}
+          onClose={() => setCopyModalOpen(false)}
+          onCopy={handleCopy}
+        />
+
+        {/* Move Modal */}
+        <MoveModal
+          isOpen={moveModalOpen}
+          itemName={itemToMove?.name || ''}
+          folders={buildFolderHierarchy(items.filter(item => item.type === 'folder'))}
+          currentFolderId={currentFolderId}
+          onClose={() => setMoveModalOpen(false)}
+          onMove={handleMove}
         />
       </div>
     </Layout>

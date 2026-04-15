@@ -162,6 +162,41 @@
 
 .bottomIcons .btn-icon {
   color: #a0a0a0;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.bottomIcons .btn-icon:hover {
+  color: #ffffff !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+.bottomIcons .btn-icon:hover svg {
+  stroke: #ffffff !important;
+}
+
+.bottomIcons .iconPink:hover {
+  color: #ff4d8d !important;
+}
+
+.bottomIcons .iconPink:hover svg {
+  stroke: #ff4d8d !important;
+}
+
+.bottomIcons .iconBlue:hover {
+  color: #4d8dff !important;
+}
+
+.bottomIcons .iconBlue:hover svg {
+  stroke: #4d8dff !important;
+}
+
+.bottomIcons .iconGreen:hover {
+  color: #4dff8d !important;
+}
+
+.bottomIcons .iconGreen:hover svg {
+  stroke: #4dff8d !important;
 }
 
 .iconPink svg {

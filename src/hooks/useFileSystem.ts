@@ -1,4 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 export interface FileSystemItem {
   id: string;
@@ -24,112 +26,190 @@ export interface Folder {
   children: FileSystemItem[];
 }
 
+const mapSupabaseItemToFileSystemItem = (item: any): FileSystemItem => ({
+  id: item.id,
+  name: item.name,
+  type: item.type,
+  size: item.size,
+  mimeType: item.mime_type,
+  url: item.url,
+  thumbnail: item.thumbnail_url,
+  parentId: item.parent_id || '',
+  createdDate: item.created_at,
+  modifiedDate: item.updated_at,
+  isPrivate: item.is_private
+});
+
 export const useFileSystem = () => {
-  const [items, setItems] = useState<FileSystemItem[]>(() => {
-    const saved = localStorage.getItem('fileSystem');
-    return saved ? JSON.parse(saved) : [];
-  });
-
+  const [items, setItems] = useState<FileSystemItem[]>([]);
   const [currentFolderId, setCurrentFolderId] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const saveToStorage = useCallback((newItems: FileSystemItem[]) => {
-    localStorage.setItem('fileSystem', JSON.stringify(newItems));
+  // Load items from backend on mount
+  useEffect(() => {
+    loadItems();
   }, []);
 
-  const createFolder = useCallback((name: string, parentId: string = currentFolderId, isPrivate: boolean = false) => {
-    const newFolder: FileSystemItem = {
-      id: Date.now().toString(),
-      name,
-      type: 'folder',
-      parentId,
-      createdDate: new Date().toISOString(),
-      modifiedDate: new Date().toISOString(),
-      isPrivate
-    };
+  const loadItems = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/files/?parent_id=${currentFolderId}`);
+      const result = await response.json();
 
-    setItems(prev => {
-      const newItems = [...prev, newFolder];
-      saveToStorage(newItems);
-      return newItems;
-    });
+      if (result.success) {
+        const mappedItems = result.data.map(mapSupabaseItemToFileSystemItem);
+        setItems(mappedItems);
+      }
+    } catch (error) {
+      console.error('Error loading items:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentFolderId]);
 
-    return newFolder.id;
-  }, [currentFolderId, saveToStorage]);
-
-  const addFile = useCallback((file: File, parentId: string = currentFolderId, url?: string, thumbnail?: string) => {
-    const newFile: FileSystemItem = {
-      id: Date.now().toString(),
-      name: file.name,
-      type: 'file',
-      size: file.size,
-      mimeType: file.type,
-      url: url || URL.createObjectURL(file),
-      thumbnail,
-      parentId,
-      createdDate: new Date().toISOString(),
-      modifiedDate: new Date().toISOString()
-    };
-
-    setItems(prev => {
-      const newItems = [...prev, newFile];
-      saveToStorage(newItems);
-      return newItems;
-    });
-
-    return newFile.id;
-  }, [currentFolderId, saveToStorage]);
-
-  const deleteItem = useCallback((id: string) => {
-    setItems(prev => {
-      const itemToDelete = prev.find(item => item.id === id);
-      if (!itemToDelete) return prev;
-
-      // Delete item and all its children if it's a folder
-      const itemsToDelete = [id];
-      const findChildren = (parentId: string) => {
-        prev.forEach(item => {
-          if (item.parentId === parentId) {
-            itemsToDelete.push(item.id);
-            if (item.type === 'folder') {
-              findChildren(item.id);
-            }
-          }
-        });
-      };
+  const createFolder = useCallback(async (name: string, parentId: string = currentFolderId, isPrivate: boolean = false) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/files/folders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, parent_id: parentId })
+      });
       
-      if (itemToDelete.type === 'folder') {
-        findChildren(id);
+      const result = await response.json();
+      
+      if (result.success) {
+        await loadItems();
+        return result.data.id;
+      }
+      
+      throw new Error(result.error || 'Failed to create folder');
+    } catch (error) {
+      console.error('Error creating folder:', error);
+      throw error;
+    }
+  }, [currentFolderId, loadItems]);
+
+  const addFile = useCallback(async (file: File, parentId: string = currentFolderId, url?: string, thumbnail?: string) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      if (parentId) {
+        formData.append('parent_id', parentId);
+      }
+      
+      const response = await fetch(`${API_BASE_URL}/files/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        await loadItems();
+        return result.data.id;
+      }
+      
+      throw new Error(result.error || 'Failed to upload file');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
+  }, [currentFolderId, loadItems]);
+
+  const deleteItem = useCallback(async (id: string) => {
+    try {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+
+      if (item.type === 'folder') {
+        const response = await fetch(`${API_BASE_URL}/files/folders/${id}`, {
+          method: 'DELETE'
+        });
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Failed to delete folder');
+        }
+      } else {
+        const response = await fetch(`${API_BASE_URL}/files/${id}`, {
+          method: 'DELETE'
+        });
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Failed to delete file');
+        }
       }
 
-      const newItems = prev.filter(item => !itemsToDelete.includes(item.id));
-      saveToStorage(newItems);
-      return newItems;
-    });
-  }, [saveToStorage]);
+      await loadItems();
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      throw error;
+    }
+  }, [items, loadItems]);
 
-  const moveItem = useCallback((itemId: string, newParentId: string) => {
-    setItems(prev => {
-      const newItems = prev.map(item => 
-        item.id === itemId 
-          ? { ...item, parentId: newParentId, modifiedDate: new Date().toISOString() }
-          : item
-      );
-      saveToStorage(newItems);
-      return newItems;
-    });
-  }, [saveToStorage]);
+  const moveItem = useCallback(async (itemId: string, newParentId: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/files/${itemId}/move`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target_parent_id: newParentId })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        await loadItems();
+      } else {
+        throw new Error(result.error || 'Failed to move item');
+      }
+    } catch (error) {
+      console.error('Error moving item:', error);
+      throw error;
+    }
+  }, [loadItems]);
 
-  const renameItem = useCallback((id: string, newName: string) => {
-    setItems(prev => {
-      const newItems = prev.map(item => 
-        item.id === id 
-          ? { ...item, name: newName, modifiedDate: new Date().toISOString() }
-          : item
-      );
-      saveToStorage(newItems);
-      return newItems;
-    });
-  }, [saveToStorage]);
+  const renameItem = useCallback(async (id: string, newName: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/files/${id}/rename`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ new_name: newName })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        await loadItems();
+      } else {
+        throw new Error(result.error || 'Failed to rename item');
+      }
+    } catch (error) {
+      console.error('Error renaming item:', error);
+      throw error;
+    }
+  }, [loadItems]);
+
+  const copyItem = useCallback(async (itemId: string, targetParentId: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/files/${itemId}/copy`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target_parent_id: targetParentId })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        await loadItems();
+      } else {
+        throw new Error(result.error || 'Failed to copy item');
+      }
+    } catch (error) {
+      console.error('Error copying item:', error);
+      throw error;
+    }
+  }, [loadItems]);
 
   const getItemsInFolder = useCallback((folderId: string = currentFolderId) => {
     return items.filter(item => item.parentId === folderId);
@@ -200,10 +280,12 @@ export const useFileSystem = () => {
     deleteItem,
     moveItem,
     renameItem,
+    copyItem,
     getItemsInFolder,
     getItemPath,
     getItem,
     getFolderSize,
-    getFolderFileCount
+    getFolderFileCount,
+    loading
   };
 };

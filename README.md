@@ -4,6 +4,7 @@ Sistema de hospedagem de arquivos com interface moderna para gerenciamento de im
 
 ## Funcionalidades
 
+- **Autenticação**: Proteção por senha com backend em Flask
 - **Upload de Arquivos**: Suporte para upload de imagens e vídeos com preview e geração automática de thumbnails
 - **Galeria**: Visualização de todos os arquivos em formato de grid com filtros e busca
 - **Organização em Pastas**: Sistema de pastas hierárquico para organizar arquivos
@@ -15,42 +16,100 @@ Sistema de hospedagem de arquivos com interface moderna para gerenciamento de im
 
 ## Tecnologias
 
+### Frontend
 - **React**: Framework frontend com TypeScript
 - **Lucide React**: Biblioteca de ícones
 - **CSS Modules**: Estilos scoped para componentes
 - **localStorage**: Armazenamento local de dados
 
+### Backend
+- **Flask**: Framework web em Python
+- **Flask-CORS**: Suporte a CORS
+- **Blueprints**: Organização modular do código
+- **python-dotenv**: Gerenciamento de variáveis de ambiente
+
 ## Estrutura do Projeto
 
 ```
-src/
-├── components/          # Componentes reutilizáveis
-│   ├── Layout/         # Layout principal da aplicação
-│   ├── Sidebar/        # Barra lateral de navegação
-│   ├── Modals/         # Modais (criar pasta, mover, renomear, etc.)
-│   ├── VideoPlayerModal/ # Player de vídeo
-│   └── ProgressBar/    # Barra de progresso
-├── pages/              # Páginas da aplicação
-│   ├── Overview/       # Dashboard com estatísticas
-│   ├── Gallery/        # Galeria de arquivos
-│   ├── Upload/         # Página de upload
-│   └── Folders/        # Gerenciamento de pastas
-├── hooks/              # Hooks customizados
-│   └── useFileSystem.ts # Hook para gerenciamento de arquivos
-├── contexts/           # Contextos React
-│   └── ToastContext.ts # Contexto para notificações
-└── styles/             # Estilos globais
-    └── globals.css     # Variáveis CSS e estilos base
+.
+├── backend/            # Backend Flask
+│   ├── app/           # Aplicação Flask
+│   │   ├── __init__.py # Configuração principal
+│   │   ├── auth/       # Blueprint de autenticação
+│   │   └── api/        # Blueprint da API
+│   ├── .env.example    # Exemplo de variáveis de ambiente
+│   ├── requirements.txt # Dependências Python
+│   └── run.py         # Arquivo para executar
+└── src/               # Frontend React
+    ├── components/    # Componentes reutilizáveis
+    │   ├── Auth/      # Componente de autenticação
+    │   ├── Layout/    # Layout principal
+    │   ├── Sidebar/   # Barra lateral
+    │   └── Modals/    # Modais
+    ├── pages/         # Páginas
+    │   ├── Overview/  # Dashboard
+    │   ├── Gallery/   # Galeria
+    │   ├── Upload/    # Upload
+    │   └── Folders/   # Pastas
+    ├── hooks/         # Hooks customizados
+    └── contexts/      # Contextos React
 ```
 
 ## Scripts Disponíveis
 
+### Frontend
+
 ### `npm start`
 
-Executa o aplicativo em modo de desenvolvimento.\
+Executa o aplicativo frontend em modo de desenvolvimento.\
 Abra [http://localhost:3000](http://localhost:3000) para visualizar no navegador.
 
 A página recarrega automaticamente ao fazer edições.
+
+### Backend
+
+### Configuração do Backend
+
+1. Navegue para a pasta backend:
+```bash
+cd backend
+```
+
+2. Crie um ambiente virtual:
+```bash
+python -m venv venv
+```
+
+3. Ative o ambiente virtual:
+```bash
+# Linux/Mac
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+```
+
+4. Copie o arquivo de exemplo:
+```bash
+cp .env.example .env
+```
+
+5. Edite o arquivo `.env` e defina sua senha:
+```
+SECRET_PASSWORD=sua_senha_aqui
+```
+
+6. Instale as dependências:
+```bash
+pip install -r requirements.txt
+```
+
+7. Execute o backend:
+```bash
+python run.py
+```
+
+O backend estará rodando em `http://localhost:5000`
 
 ### `npm test`
 
@@ -91,6 +150,16 @@ Se não estiver satisfeito com as ferramentas de build, pode usar `eject` para t
 - Visualização de todas as pastas (exceto pasta com nome "root")
 - Navegação hierárquica com breadcrumbs
 - Gerenciamento de pastas (renomear, mover, excluir)
+
+## Autenticação
+
+O sistema possui uma camada de autenticação que protege toda a aplicação:
+
+- **Proteção por senha**: Ao acessar o site, é solicitada uma senha definida no backend
+- **Interface borrada**: Enquanto não autenticado, o site aparece com efeito de blur
+- **Validação no backend**: A senha é validada no servidor Flask, não no frontend
+- **Sessão**: Após autenticação bem-sucedida, a sessão é mantida no sessionStorage
+- **Segurança**: Todas as validações ocorrem no backend, o frontend não confia em validações client-side
 
 ## Sistema de Arquivos
 

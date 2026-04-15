@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Search, Eye, Download, Play, Trash2, Star, Video, Image as ImageIcon, Filter, RefreshCw, Copy, Folder as FolderIcon, FolderOpen, Edit, Move, Plus, Upload, Calendar, File, HardDrive, Circle } from 'lucide-react';
+import { Search, Eye, Download, Play, Trash2, Star, Video, Image as ImageIcon, Filter, RefreshCw, Copy, Folder as FolderIcon, FolderOpen, Edit, Move, Plus, Upload, Calendar, File, HardDrive, Circle, Link } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
 import RenameModal from '../../components/Modals/RenameModal/RenameModal';
 import MoveModal from '../../components/Modals/MoveModal/MoveModal';
+import CopyModal from '../../components/Modals/CopyModal/CopyModal';
 import VideoPlayerModal from '../../components/VideoPlayerModal/VideoPlayerModal';
 import { useToastContext } from '../../contexts/ToastContext';
 import { useFileSystem, FileSystemItem } from '../../hooks/useFileSystem';
@@ -19,6 +20,8 @@ const Gallery: React.FC = () => {
   const [itemToRename, setItemToRename] = useState<FileSystemItem | null>(null);
   const [moveModalOpen, setMoveModalOpen] = useState(false);
   const [itemToMove, setItemToMove] = useState<FileSystemItem | null>(null);
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [itemToCopy, setItemToCopy] = useState<FileSystemItem | null>(null);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoToPlay, setVideoToPlay] = useState<FileSystemItem | null>(null);
   
@@ -32,6 +35,7 @@ const Gallery: React.FC = () => {
     deleteItem,
     moveItem,
     renameItem,
+    copyItem,
     getItemsInFolder,
     getItemPath
   } = useFileSystem();
@@ -40,16 +44,28 @@ const Gallery: React.FC = () => {
   const currentItems = items.filter(item => item.type === 'file' && item.parentId === '');
   const currentPath = getItemPath(currentFolderId);
 
+  // Calculate stats from actual data
+  const totalSize = currentItems.reduce((acc, item) => acc + (item.size || 0), 0);
+  const sizeInMB = (totalSize / 1024 / 1024).toFixed(2);
+  const sizeLimitMB = 100;
+  const freeSpaceMB = (sizeLimitMB - parseFloat(sizeInMB)).toFixed(2);
+
+  // Calculate uploads today
+  const today = new Date().toDateString();
+  const uploadsToday = currentItems.filter(item =>
+    new Date(item.createdDate).toDateString() === today
+  ).length;
+
   const stats = [
-    { title: 'Total de Envios', value: 4 },
-    { title: 'Envios Hoje', value: 1 },
+    { title: 'Total de Arquivos', value: currentItems.length },
+    { title: 'Envios Hoje', value: uploadsToday },
     { title: 'Limite de Tamanho', value: '100MB' },
-    { title: 'Espaço Usado', value: '73.43MB' },
-    { title: 'Espaço Livre', value: '950.57MB' }
+    { title: 'Espaço Usado', value: `${sizeInMB}MB` },
+    { title: 'Espaço Livre', value: `${freeSpaceMB}MB` }
   ];
 
   const getStatIcon = (title: string) => {
-    if (title === 'Total de Envios') return <Upload size={16} style={{ color: '#ff4d8d' }} />;
+    if (title === 'Total de Arquivos') return <Upload size={16} style={{ color: '#ff4d8d' }} />;
     if (title === 'Envios Hoje') return <Calendar size={16} style={{ color: '#ff4d8d' }} />;
     if (title === 'Limite de Tamanho') return <File size={16} style={{ color: '#ff4d8d' }} />;
     if (title === 'Espaço Usado') return <HardDrive size={16} style={{ color: '#ff4d8d' }} />;
@@ -93,10 +109,14 @@ const Gallery: React.FC = () => {
     setDeleteModalOpen(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (fileToDelete) {
-      deleteItem(fileToDelete);
-      showSuccess('Item excluído com sucesso!');
+      try {
+        await deleteItem(fileToDelete);
+        showSuccess('Item excluído com sucesso!');
+      } catch (error) {
+        console.error('Error deleting item:', error);
+      }
     }
     setDeleteModalOpen(false);
     setFileToDelete(null);
@@ -124,11 +144,17 @@ const Gallery: React.FC = () => {
     setRenameModalOpen(true);
   };
 
-  const handleRename = (newName: string) => {
+  const handleRename = async (newName: string) => {
     if (itemToRename) {
-      renameItem(itemToRename.id, newName);
-      showSuccess('Item renomeado com sucesso!');
+      try {
+        await renameItem(itemToRename.id, newName);
+        showSuccess('Item renomeado com sucesso!');
+      } catch (error) {
+        console.error('Error renaming item:', error);
+      }
     }
+    setRenameModalOpen(false);
+    setItemToRename(null);
   };
 
   const openMoveModal = (item: FileSystemItem) => {
@@ -136,10 +162,30 @@ const Gallery: React.FC = () => {
     setMoveModalOpen(true);
   };
 
-  const handleMove = (targetFolderId: string) => {
+  const openCopyModal = (item: FileSystemItem) => {
+    setItemToCopy(item);
+    setCopyModalOpen(true);
+  };
+
+  const handleMove = async (targetFolderId: string) => {
     if (itemToMove) {
-      moveItem(itemToMove.id, targetFolderId);
-      showSuccess('Item movido com sucesso!');
+      try {
+        await moveItem(itemToMove.id, targetFolderId);
+        showSuccess('Item movido com sucesso!');
+      } catch (error) {
+        console.error('Error moving item:', error);
+      }
+    }
+  };
+
+  const handleCopy = async (targetFolderId: string) => {
+    if (itemToCopy) {
+      try {
+        await copyItem(itemToCopy.id, targetFolderId);
+        showSuccess('Item copiado com sucesso!');
+      } catch (error) {
+        console.error('Error copying item:', error);
+      }
     }
   };
 
@@ -149,7 +195,20 @@ const Gallery: React.FC = () => {
 
   const filteredItems = currentItems.filter(item =>
     item.type === 'file' && item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ).sort((a, b) => {
+    switch (sortBy) {
+      case 'newest':
+        return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+      case 'oldest':
+        return new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime();
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'size':
+        return (b.size || 0) - (a.size || 0);
+      default:
+        return 0;
+    }
+  });
 
   const buildFolderHierarchy = (folders: FileSystemItem[]) => {
     const folderMap = new Map<string, any>();
@@ -352,7 +411,7 @@ const Gallery: React.FC = () => {
                           onClick={() => copyToClipboard(item.url || '')}
                           title="Copiar Link"
                         >
-                          <Copy size={16} style={{ color: '#ff4d8d' }} />
+                          <Link size={16} style={{ color: '#ff4d8d' }} />
                         </button>
                         <button
                           className={`btn-icon ${styles.actionBtn}`}
@@ -374,6 +433,13 @@ const Gallery: React.FC = () => {
                       title="Mover"
                     >
                       <Move size={16} style={{ color: '#ff4d8d' }} />
+                    </button>
+                    <button
+                      className={`btn-icon ${styles.actionBtn}`}
+                      onClick={() => openCopyModal(item)}
+                      title="Copiar"
+                    >
+                      <Copy size={16} style={{ color: '#ff4d8d' }} />
                     </button>
                     <button
                       className={`btn-icon ${styles.actionBtn}`}
@@ -416,6 +482,15 @@ const Gallery: React.FC = () => {
         currentFolderId={currentFolderId}
         onClose={() => setMoveModalOpen(false)}
         onMove={handleMove}
+      />
+
+      <CopyModal
+        isOpen={copyModalOpen}
+        itemName={itemToCopy?.name || ''}
+        folders={buildFolderHierarchy(items.filter(item => item.type === 'folder'))}
+        currentFolderId={currentFolderId}
+        onClose={() => setCopyModalOpen(false)}
+        onCopy={handleCopy}
       />
 
       {/* Video Player Modal */}
