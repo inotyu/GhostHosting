@@ -47,7 +47,7 @@ class handler(BaseHTTPRequestHandler):
                     self.send_header('Content-type', 'application/json')
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                    self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                    self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                     self.end_headers()
                     self.wfile.write(json.dumps(result).encode())
                 else:
@@ -55,7 +55,7 @@ class handler(BaseHTTPRequestHandler):
                     self.send_header('Content-type', 'application/json')
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                    self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                    self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                     self.end_headers()
                     self.wfile.write(json.dumps(result).encode())
             else:
@@ -63,7 +63,7 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                 self.end_headers()
                 response = {'error': 'Endpoint not found'}
                 self.wfile.write(json.dumps(response).encode())
@@ -73,7 +73,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             self.end_headers()
             response = {'error': str(e)}
             self.wfile.write(json.dumps(response).encode())
@@ -97,7 +97,7 @@ class handler(BaseHTTPRequestHandler):
                             self.send_header('Content-type', 'application/json')
                             self.send_header('Access-Control-Allow-Origin', '*')
                             self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                             self.end_headers()
                             response = {'error': 'Folder name is required'}
                             self.wfile.write(json.dumps(response).encode())
@@ -111,7 +111,7 @@ class handler(BaseHTTPRequestHandler):
                             self.send_header('Content-type', 'application/json')
                             self.send_header('Access-Control-Allow-Origin', '*')
                             self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                             self.end_headers()
                             response = {'error': 'Folder name cannot be empty'}
                             self.wfile.write(json.dumps(response).encode())
@@ -126,7 +126,7 @@ class handler(BaseHTTPRequestHandler):
                         self.send_header('Content-type', 'application/json')
                         self.send_header('Access-Control-Allow-Origin', '*')
                         self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                         self.end_headers()
                         self.wfile.write(json.dumps(result).encode())
                     else:
@@ -144,7 +144,7 @@ class handler(BaseHTTPRequestHandler):
                                 self.send_header('Content-type', 'application/json')
                                 self.send_header('Access-Control-Allow-Origin', '*')
                                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                                 self.end_headers()
                                 response = {'error': 'Target parent ID is required'}
                                 self.wfile.write(json.dumps(response).encode())
@@ -159,7 +159,7 @@ class handler(BaseHTTPRequestHandler):
                                 self.send_header('Content-type', 'application/json')
                                 self.send_header('Access-Control-Allow-Origin', '*')
                                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                                 self.end_headers()
                                 response = {'error': 'Target parent ID is required'}
                                 self.wfile.write(json.dumps(response).encode())
@@ -174,7 +174,7 @@ class handler(BaseHTTPRequestHandler):
                                 self.send_header('Content-type', 'application/json')
                                 self.send_header('Access-Control-Allow-Origin', '*')
                                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                                 self.end_headers()
                                 response = {'error': 'New name is required'}
                                 self.wfile.write(json.dumps(response).encode())
@@ -186,7 +186,7 @@ class handler(BaseHTTPRequestHandler):
                                 self.send_header('Content-type', 'application/json')
                                 self.send_header('Access-Control-Allow-Origin', '*')
                                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                                 self.end_headers()
                                 response = {'error': 'New name cannot be empty'}
                                 self.wfile.write(json.dumps(response).encode())
@@ -198,7 +198,7 @@ class handler(BaseHTTPRequestHandler):
                             self.send_header('Content-type', 'application/json')
                             self.send_header('Access-Control-Allow-Origin', '*')
                             self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                             self.end_headers()
                             response = {'error': 'Operation not found'}
                             self.wfile.write(json.dumps(response).encode())
@@ -211,7 +211,7 @@ class handler(BaseHTTPRequestHandler):
                         self.send_header('Content-type', 'application/json')
                         self.send_header('Access-Control-Allow-Origin', '*')
                         self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                         self.end_headers()
                         self.wfile.write(json.dumps(result).encode())
                 else:
@@ -220,7 +220,7 @@ class handler(BaseHTTPRequestHandler):
                     self.send_header('Content-type', 'application/json')
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                    self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                    self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                     self.end_headers()
                     response = {'error': 'File upload not implemented for Vercel serverless'}
                     self.wfile.write(json.dumps(response).encode())
@@ -229,7 +229,7 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                 self.end_headers()
                 response = {'error': 'Endpoint not found'}
                 self.wfile.write(json.dumps(response).encode())
@@ -239,7 +239,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             self.end_headers()
             response = {'error': str(e)}
             self.wfile.write(json.dumps(response).encode())
@@ -268,7 +268,7 @@ class handler(BaseHTTPRequestHandler):
                     self.send_header('Content-type', 'application/json')
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                    self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                    self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                     self.end_headers()
                     self.wfile.write(json.dumps(result).encode())
                 else:
@@ -276,7 +276,7 @@ class handler(BaseHTTPRequestHandler):
                     self.send_header('Content-type', 'application/json')
                     self.send_header('Access-Control-Allow-Origin', '*')
                     self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                    self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                    self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                     self.end_headers()
                     response = {'error': 'Resource ID required'}
                     self.wfile.write(json.dumps(response).encode())
@@ -285,7 +285,7 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
                 self.end_headers()
                 response = {'error': 'Endpoint not found'}
                 self.wfile.write(json.dumps(response).encode())
@@ -295,7 +295,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             self.end_headers()
             response = {'error': str(e)}
             self.wfile.write(json.dumps(response).encode())
