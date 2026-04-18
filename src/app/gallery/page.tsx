@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Search, Eye, Download, Play, Trash2, Star, Video, Image as ImageIcon, RefreshCw, Copy, Edit, Move, Upload, Calendar, File, HardDrive, Circle, Link } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';

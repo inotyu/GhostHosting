@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Upload as UploadIcon, Cloud, Bell, Copy, Upload as UploadStatIcon, Calendar, File, HardDrive, Circle } from 'lucide-react';
 import Layout from '../../components/Layout/Layout';
