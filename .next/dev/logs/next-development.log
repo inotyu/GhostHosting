@@ -4,3 +4,4 @@
 {"timestamp":"00:00:00.486","source":"Server","level":"LOG","message":"  \t- moduleResolution was set to bundler (to match modern bundler resolution)"}
 {"timestamp":"00:00:00.486","source":"Server","level":"LOG","message":""}
 {"timestamp":"00:00:00.605","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:49.377","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
