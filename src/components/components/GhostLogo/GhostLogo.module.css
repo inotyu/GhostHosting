@@ -1,0 +1,32 @@
+.ghostLogo {
+  transition: all 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+.ghostLogo:hover {
+  transform: scale(1.1) translateY(-2px);
+  filter: brightness(1.2);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+}
+
+.ghostLogo.small {
+  animation: none;
+}
+
+.ghostLogo.small:hover {
+  transform: scale(1.05);
+}
