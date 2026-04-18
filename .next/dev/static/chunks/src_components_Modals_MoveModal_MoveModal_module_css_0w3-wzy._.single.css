@@ -1,0 +1,149 @@
+/* [project]/src/components/Modals/MoveModal/MoveModal.module.css [app-client] (css) */
+.MoveModal-module__7KNTja__modalOverlay {
+  z-index: 1000;
+  background: #000000b3;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.MoveModal-module__7KNTja__modal {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  flex-direction: column;
+  width: 90%;
+  min-width: 500px;
+  max-width: 600px;
+  max-height: 80vh;
+  padding: 24px;
+  display: flex;
+  box-shadow: 0 20px 40px #0000004d;
+}
+
+.MoveModal-module__7KNTja__modalHeader {
+  align-items: center;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.MoveModal-module__7KNTja__modalTitle {
+  color: #fff;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.MoveModal-module__7KNTja__modalForm {
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  display: flex;
+}
+
+.MoveModal-module__7KNTja__formGroup {
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+  display: flex;
+}
+
+.MoveModal-module__7KNTja__formLabel {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.MoveModal-module__7KNTja__folderTree {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  flex: 1;
+  max-height: 300px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.MoveModal-module__7KNTja__folderItem {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.MoveModal-module__7KNTja__folderRow {
+  cursor: pointer;
+  border-radius: 6px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  transition: background .2s;
+  display: flex;
+}
+
+.MoveModal-module__7KNTja__folderRow:hover {
+  background: #2a2a2a;
+}
+
+.MoveModal-module__7KNTja__folderRow.MoveModal-module__7KNTja__selected {
+  color: #ff4d8d;
+  background: #2a2a2a;
+}
+
+.MoveModal-module__7KNTja__expandBtn {
+  cursor: pointer;
+  color: #666;
+  background: none;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  transition: color .2s;
+  display: flex;
+}
+
+.MoveModal-module__7KNTja__expandBtn:hover {
+  color: #fff;
+}
+
+.MoveModal-module__7KNTja__folderIcon {
+  color: #ff4d8d;
+  flex-shrink: 0;
+}
+
+.MoveModal-module__7KNTja__folderName {
+  color: #fff;
+  flex: 1;
+  font-size: 14px;
+}
+
+.MoveModal-module__7KNTja__folderChildren {
+  margin-left: 8px;
+}
+
+.MoveModal-module__7KNTja__modalActions {
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: auto;
+  display: flex;
+}
+
+.MoveModal-module__7KNTja__cancelBtn, .MoveModal-module__7KNTja__moveBtn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .2s;
+}
+
+@media (max-width: 768px) {
+  .MoveModal-module__7KNTja__modal {
+    width: 95%;
+    min-width: auto;
+    padding: 20px;
+  }
+}
+
+/*# sourceMappingURL=src_components_Modals_MoveModal_MoveModal_module_css_0w3-wzy._.single.css.map*/

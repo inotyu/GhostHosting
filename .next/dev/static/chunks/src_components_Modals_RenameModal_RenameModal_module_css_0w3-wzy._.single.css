@@ -1,0 +1,101 @@
+/* [project]/src/components/Modals/RenameModal/RenameModal.module.css [app-client] (css) */
+.RenameModal-module__5Ubw2W__modalOverlay {
+  z-index: 1000;
+  background: #000000b3;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.RenameModal-module__5Ubw2W__modal {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  width: 90%;
+  min-width: 400px;
+  max-width: 500px;
+  padding: 24px;
+  box-shadow: 0 20px 40px #0000004d;
+}
+
+.RenameModal-module__5Ubw2W__modalHeader {
+  margin-bottom: 20px;
+}
+
+.RenameModal-module__5Ubw2W__modalTitle {
+  color: #fff;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.RenameModal-module__5Ubw2W__modalForm {
+  flex-direction: column;
+  gap: 20px;
+  display: flex;
+}
+
+.RenameModal-module__5Ubw2W__formGroup {
+  flex-direction: column;
+  gap: 8px;
+  display: flex;
+}
+
+.RenameModal-module__5Ubw2W__formLabel {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.RenameModal-module__5Ubw2W__formInput {
+  color: #fff;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  transition: all .2s;
+}
+
+.RenameModal-module__5Ubw2W__formInput:focus {
+  border-color: #ff4d8d;
+  outline: none;
+  box-shadow: 0 0 0 3px #ff4d8d1a;
+}
+
+.RenameModal-module__5Ubw2W__formInput::placeholder {
+  color: #666;
+}
+
+.RenameModal-module__5Ubw2W__modalActions {
+  justify-content: flex-end;
+  gap: 12px;
+  display: flex;
+}
+
+.RenameModal-module__5Ubw2W__cancelBtn, .RenameModal-module__5Ubw2W__renameBtn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .2s;
+}
+
+.RenameModal-module__5Ubw2W__renameBtn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .RenameModal-module__5Ubw2W__modal {
+    width: 95%;
+    min-width: auto;
+    padding: 20px;
+  }
+}
+
+/*# sourceMappingURL=src_components_Modals_RenameModal_RenameModal_module_css_0w3-wzy._.single.css.map*/

@@ -1,0 +1,117 @@
+/* [project]/src/components/Toast/Toast.module.css [app-client] (css) */
+.Toast-module__UKUNqG__toastContainer {
+  z-index: 9999;
+  pointer-events: none;
+  flex-direction: column;
+  gap: 10px;
+  display: flex;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.Toast-module__UKUNqG__toast {
+  pointer-events: all;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 300px;
+  max-width: 400px;
+  padding: 16px;
+  transition: all .3s;
+  animation: .3s ease-out Toast-module__UKUNqG__slideIn;
+  display: flex;
+  box-shadow: 0 10px 25px #0000004d;
+}
+
+.Toast-module__UKUNqG__toast:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 15px 35px #0006;
+}
+
+.Toast-module__UKUNqG__toast.Toast-module__UKUNqG__success {
+  border-left: 4px solid #10b981;
+}
+
+.Toast-module__UKUNqG__toast.Toast-module__UKUNqG__error {
+  border-left: 4px solid #ef4444;
+}
+
+.Toast-module__UKUNqG__toast.Toast-module__UKUNqG__info {
+  border-left: 4px solid #3b82f6;
+}
+
+.Toast-module__UKUNqG__toastContent {
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.Toast-module__UKUNqG__toastIcon {
+  flex-shrink: 0;
+}
+
+.Toast-module__UKUNqG__toastMessage {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.Toast-module__UKUNqG__toastClose {
+  color: #666;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  flex-shrink: 0;
+  padding: 4px;
+  transition: all .2s;
+}
+
+.Toast-module__UKUNqG__toastClose:hover {
+  color: #fff;
+  background: #2a2a2a;
+}
+
+@keyframes Toast-module__UKUNqG__slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes Toast-module__UKUNqG__slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 768px) {
+  .Toast-module__UKUNqG__toastContainer {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .Toast-module__UKUNqG__toast {
+    min-width: auto;
+    max-width: none;
+  }
+}
+
+/*# sourceMappingURL=src_components_Toast_Toast_module_css_0w3-wzy._.single.css.map*/

@@ -1,0 +1,149 @@
+/* [project]/src/components/Modals/CopyModal/CopyModal.module.css [app-client] (css) */
+.CopyModal-module__xk09XW__modalOverlay {
+  z-index: 1000;
+  background: #000000b3;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.CopyModal-module__xk09XW__modal {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  flex-direction: column;
+  width: 90%;
+  min-width: 500px;
+  max-width: 600px;
+  max-height: 80vh;
+  padding: 24px;
+  display: flex;
+  box-shadow: 0 20px 40px #0000004d;
+}
+
+.CopyModal-module__xk09XW__modalHeader {
+  align-items: center;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.CopyModal-module__xk09XW__modalTitle {
+  color: #fff;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.CopyModal-module__xk09XW__modalForm {
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  display: flex;
+}
+
+.CopyModal-module__xk09XW__formGroup {
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+  display: flex;
+}
+
+.CopyModal-module__xk09XW__formLabel {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.CopyModal-module__xk09XW__folderTree {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  flex: 1;
+  max-height: 300px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.CopyModal-module__xk09XW__folderItem {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.CopyModal-module__xk09XW__folderRow {
+  cursor: pointer;
+  border-radius: 6px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  transition: background .2s;
+  display: flex;
+}
+
+.CopyModal-module__xk09XW__folderRow:hover {
+  background: #2a2a2a;
+}
+
+.CopyModal-module__xk09XW__folderRow.CopyModal-module__xk09XW__selected {
+  color: #ff4d8d;
+  background: #2a2a2a;
+}
+
+.CopyModal-module__xk09XW__expandBtn {
+  cursor: pointer;
+  color: #666;
+  background: none;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  transition: color .2s;
+  display: flex;
+}
+
+.CopyModal-module__xk09XW__expandBtn:hover {
+  color: #fff;
+}
+
+.CopyModal-module__xk09XW__folderIcon {
+  color: #ff4d8d;
+  flex-shrink: 0;
+}
+
+.CopyModal-module__xk09XW__folderName {
+  color: #fff;
+  flex: 1;
+  font-size: 14px;
+}
+
+.CopyModal-module__xk09XW__folderChildren {
+  margin-left: 8px;
+}
+
+.CopyModal-module__xk09XW__modalActions {
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: auto;
+  display: flex;
+}
+
+.CopyModal-module__xk09XW__cancelBtn, .CopyModal-module__xk09XW__copyBtn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .2s;
+}
+
+@media (max-width: 768px) {
+  .CopyModal-module__xk09XW__modal {
+    width: 95%;
+    min-width: auto;
+    padding: 20px;
+  }
+}
+
+/*# sourceMappingURL=src_components_Modals_CopyModal_CopyModal_module_css_0w3-wzy._.single.css.map*/

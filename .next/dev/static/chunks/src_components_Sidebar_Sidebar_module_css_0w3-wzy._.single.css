@@ -1,0 +1,292 @@
+/* [project]/src/components/Sidebar/Sidebar.module.css [app-client] (css) */
+.Sidebar-module__chRhja__sidebar {
+  z-index: 1000;
+  background: #0f0f0f;
+  border: 1px solid #ff4d8d38;
+  border-radius: 0;
+  flex-direction: column;
+  width: 300px;
+  min-width: 300px;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 14px;
+}
+
+.Sidebar-module__chRhja__sidebarHeader {
+  flex-shrink: 0;
+  padding: 32px 24px;
+}
+
+.Sidebar-module__chRhja__logo {
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  display: flex;
+}
+
+.Sidebar-module__chRhja__logoImage {
+  -o-object-fit: contain;
+  object-fit: contain;
+  width: auto;
+  height: 96px;
+}
+
+.Sidebar-module__chRhja__logoText {
+  color: #ff4d8d;
+  white-space: nowrap;
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.Sidebar-module__chRhja__searchContainer {
+  position: relative;
+}
+
+.Sidebar-module__chRhja__searchIcon {
+  color: #666;
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+}
+
+.Sidebar-module__chRhja__searchInput {
+  color: #fff;
+  background: none;
+  border: 1px solid #ffffff14;
+  border-radius: 12px;
+  width: 100%;
+  padding: 10px 12px 10px 40px;
+  font-size: 14px;
+}
+
+.Sidebar-module__chRhja__searchShortcut {
+  color: #666;
+  background: #2a2a2a;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+}
+
+.Sidebar-module__chRhja__sidebarNav {
+  flex: 1;
+  padding: 16px 4px;
+  overflow: hidden auto;
+}
+
+.Sidebar-module__chRhja__sidebarItemContent {
+  cursor: pointer;
+  color: inherit;
+  align-items: center;
+  margin: 0 32px;
+  padding: 12px 16px;
+  text-decoration: none;
+  transition: color .2s;
+  display: flex;
+  position: relative;
+}
+
+.Sidebar-module__chRhja__sidebarItemContent:hover {
+  color: #ff4d8d;
+}
+
+.Sidebar-module__chRhja__active {
+  color: #ff4d8d;
+  background: #2a2a2a;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #ff4d8d33;
+}
+
+.Sidebar-module__chRhja__searchInput:focus {
+  border-color: #ff4d8d;
+  outline: none;
+  box-shadow: 0 0 0 3px #ff4d8d33, 0 0 15px #ff4d8d4d;
+}
+
+.Sidebar-module__chRhja__subItem {
+  font-size: 14px;
+}
+
+.Sidebar-module__chRhja__sidebarIcon {
+  color: #a0a0a0;
+  margin-right: 12px;
+  transition: color .2s;
+}
+
+.Sidebar-module__chRhja__sidebarLabel {
+  color: #fff;
+  flex: 1;
+  transition: color .2s;
+}
+
+.Sidebar-module__chRhja__sidebarItemContent:hover .Sidebar-module__chRhja__sidebarIcon, .Sidebar-module__chRhja__sidebarItemContent:hover .Sidebar-module__chRhja__sidebarLabel {
+  color: #ff4d8d;
+}
+
+.Sidebar-module__chRhja__expandIcon {
+  color: #666;
+}
+
+.Sidebar-module__chRhja__sidebarChildren {
+  background: none;
+}
+
+.Sidebar-module__chRhja__sidebarFooter {
+  flex-shrink: 0;
+  padding: 20px 24px;
+}
+
+.Sidebar-module__chRhja__bottomIcons {
+  gap: 8px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__btn-icon {
+  color: #a0a0a0;
+  transition: color .2s, background .2s;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__btn-icon:hover {
+  color: #fff !important;
+  background: none !important;
+  border-color: #0000 !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__btn-icon:hover svg {
+  stroke: #fff !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__iconPink:hover {
+  color: #ff4d8d !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__iconPink:hover svg {
+  stroke: #ff4d8d !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__iconBlue:hover {
+  color: #4d8dff !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__iconBlue:hover svg {
+  stroke: #4d8dff !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__iconGreen:hover {
+  color: #4dff8d !important;
+}
+
+.Sidebar-module__chRhja__bottomIcons .Sidebar-module__chRhja__iconGreen:hover svg {
+  stroke: #4dff8d !important;
+}
+
+.Sidebar-module__chRhja__iconPink svg {
+  color: #ff4d8d !important;
+  stroke: #ff4d8d !important;
+}
+
+.Sidebar-module__chRhja__iconBlue svg {
+  color: #4da6ff !important;
+  stroke: #4da6ff !important;
+}
+
+.Sidebar-module__chRhja__iconGreen svg {
+  color: #4dff88 !important;
+  stroke: #4dff88 !important;
+}
+
+.Sidebar-module__chRhja__iconPink:hover svg, .Sidebar-module__chRhja__iconBlue:hover svg, .Sidebar-module__chRhja__iconGreen:hover svg {
+  color: inherit !important;
+  stroke: inherit !important;
+}
+
+.Sidebar-module__chRhja__userProfile {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.Sidebar-module__chRhja__userInfo {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.Sidebar-module__chRhja__userAvatar {
+  background: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.Sidebar-module__chRhja__userAvatar img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.Sidebar-module__chRhja__userDetails {
+  flex-direction: column;
+  display: flex;
+}
+
+.Sidebar-module__chRhja__username {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Sidebar-module__chRhja__userUid {
+  color: #666;
+  font-size: 12px;
+}
+
+.Sidebar-module__chRhja__logoutBtn {
+  color: #fff;
+  background: #ff4d4d;
+  border: 1px solid #ff4d4d;
+}
+
+.Sidebar-module__chRhja__logoutBtn:hover {
+  background: #f33;
+  border-color: #f33;
+}
+
+.Sidebar-module__chRhja__mobileOverlay {
+  z-index: 999;
+  background: #00000080;
+  display: none;
+  position: fixed;
+  inset: 0;
+}
+
+@media (max-width: 768px) {
+  .Sidebar-module__chRhja__mobileOverlay {
+    display: block;
+  }
+
+  .Sidebar-module__chRhja__sidebar {
+    border-radius: 0;
+    height: 100vh;
+    transition: transform .3s;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+  }
+
+  .Sidebar-module__chRhja__sidebar.Sidebar-module__chRhja__open {
+    transform: translateX(0);
+  }
+}
+
+/*# sourceMappingURL=src_components_Sidebar_Sidebar_module_css_0w3-wzy._.single.css.map*/
